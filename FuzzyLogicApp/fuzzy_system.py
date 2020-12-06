@@ -50,6 +50,7 @@ class FuzzySystem():
         self.RulesByRuleBaseName = dict();
 
         self.ControlSystem = None;
+        self.ControlSystemSimulation = None;
 
         # actual setup, not actually used as getters as they set the instance variables within the calls
         # whilst likely not semantically correct to be called a getter, I use this as a form of 'typing'
@@ -69,8 +70,9 @@ class FuzzySystem():
         self.GetRules();
 
         self.GetControlSystem();
+        self.GetControlSystemSimulation();
 
-    # set up
+    # setup
     def GetInputRules(self):
         print("Reading rules. . .");
         ruleLines = self.__ReadDataFile(self.RulesFileName);
@@ -263,6 +265,17 @@ class FuzzySystem():
         self.ControlSystem = ctrl.ControlSystem(flatAllRules);
 
         return self.ControlSystem;
+
+    def GetControlSystemSimulation(self):
+        self.ControlSystemSimulation = ctrl.ControlSystemSimulation(self.ControlSystem);
+
+        for measurement in self.InputMeasurements:
+            self.ControlSystemSimulation\
+                .input[measurement.Name] = measurement.Value;
+
+        self.ControlSystemSimulation.compute();
+
+        return self.ControlSystemSimulation;
 
     # helper
     def __ReadDataFile(self, fileName):
