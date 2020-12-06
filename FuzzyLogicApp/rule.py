@@ -34,9 +34,9 @@ class Rule:
 
     # a bit too lengthy for a constructor
     def __init__(self, ruleText):
-        self.Name = ""
-        self.Conditions = []
-        self.Result = None
+        self.Name = str();
+        self.Conditions = list();
+        self.Result = None; # Condition type
 
         ruleText = ruleText.lower()
 
