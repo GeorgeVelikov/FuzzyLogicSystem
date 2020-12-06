@@ -25,6 +25,17 @@ class RuleCondition:
         self.VariableValue = variableValue;
         return
 
+    @property
+    def GetLogicalConnectiveOperand(self):
+        if (self.LogicalConnective == LogicalConnectiveEnum._None):
+            return str();
+        elif (self.LogicalConnective == LogicalConnectiveEnum.And):
+            return "&";
+        elif (self.LogicalConnective == LogicalConnectiveEnum.Or):
+            return "|";
+        else:
+            raise Exception("Incorrect logical connective.");
+
 class Rule:
     def __str__(self):
         value = "Rule: " + self.Name + "\n"

@@ -40,10 +40,14 @@ class FuzzySystem():
         # actual fuzzy system values
         self.AntecedentNames = set();
         self.ConsequentNames = set();
+
         self.AntecedentsByName = dict();
         self.ConsequentsByName = dict();
+
         self.AntecedentMembershipFunctionsByName = dict();
         self.ConsequentMembershipFunctionsByName = dict();
+
+        self.RulesByRuleBaseName = dict();
 
         # actual setup, not actually used as getters as they set the instance variables within the calls
         # whilst likely not semantically correct to be called a getter, I use this as a form of 'typing'
@@ -53,10 +57,14 @@ class FuzzySystem():
         self.GetInputMeasurements();
 
         self.GetAntecedentAndConsequentNames();
+
         self.GetAntecedents();
         self.GetConsequents();
+
         self.GetAntecedentMembershipFunctions();
         self.GetConsequentMembershipFunctions();
+
+        self.GetRules();
 
     # set up
     def GetInputRules(self):
@@ -78,7 +86,7 @@ class FuzzySystem():
                 continue;
 
         self.InputRulesByRuleBaseName = rules;
-        return rules;
+        return self.InputRulesByRuleBaseName;
 
     def GetInputVariables(self):
         print("Reading variables. . .");
@@ -99,7 +107,7 @@ class FuzzySystem():
                 continue;
 
         self.InputVariableValuesByVariableName = variables;
-        return variables;
+        return self.InputVariableValuesByVariableName;
 
     def GetInputMeasurements(self):
         print("Reading measurements. . .");
@@ -115,7 +123,7 @@ class FuzzySystem():
                 print("Error: Unhandled scenario for measurements.");
 
         self.InputMeasurements = measurements;
-        return measurements;
+        return self.InputMeasurements;
 
     def GetAntecedentAndConsequentNames(self):
         print("Getting unique antecedents and consequents. . .");
@@ -133,6 +141,31 @@ class FuzzySystem():
                     self.AntecedentNames.add(antecedent.VariableName);
 
         return self.AntecedentNames, self.ConsequentNames;
+
+    def GetRules(self):
+        for ruleBaseName, rules in self.InputRulesByRuleBaseName.items():
+            self.RulesByRuleBaseName[ruleBaseName] = list();
+
+            for rule in rules:
+                # No tokenization, if you have a mish-mash of and/or/anything else, you might get
+                # unexpected results. You really shouldn't even try adding brackets in the input.
+                # I haven't tested what will happen, but I know it won't work as you expect.
+                for condition in rule.Conditions:
+                    logicalConnective = condition.GetLogicalConnectiveOperand;
+                    antecedent = self.AntecedentsByName[condition.VariableName][condition.VariableValue];
+
+                    if logicalConnective:
+                        # connect with antecedent
+
+                # then variableName is variableValue
+                result = self.ConsequentsByName[rule.Result.VariableName][rule.Result.VariableValue];
+
+                fuzzyRule = ctrl.Rule(eval(antecedents), result);
+
+                self.RulesByRuleBaseName[ruleBaseName]\
+                    .append(fuzzyRule);
+
+        return self.RulesByRuleBaseName;
 
     def GetAntecedents(self):
         print("Creating antecedent objects. . .");
