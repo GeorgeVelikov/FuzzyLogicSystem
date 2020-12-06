@@ -154,16 +154,13 @@ class FuzzySystem():
                     logicalConnective = condition.GetLogicalConnectiveOperand;
                     antecedent = self.AntecedentsByName[condition.VariableName][condition.VariableValue];
 
-                    if logicalConnective:
-                        # connect with antecedent
-
                 # then variableName is variableValue
                 result = self.ConsequentsByName[rule.Result.VariableName][rule.Result.VariableValue];
 
-                fuzzyRule = ctrl.Rule(eval(antecedents), result);
+                #fuzzyRule = ctrl.Rule(eval(antecedents), result);
 
-                self.RulesByRuleBaseName[ruleBaseName]\
-                    .append(fuzzyRule);
+                #self.RulesByRuleBaseName[ruleBaseName]\
+                #    .append(fuzzyRule);
 
         return self.RulesByRuleBaseName;
 
