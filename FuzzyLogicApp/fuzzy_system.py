@@ -150,17 +150,32 @@ class FuzzySystem():
                 # No tokenization, if you have a mish-mash of and/or/anything else, you might get
                 # unexpected results. You really shouldn't even try adding brackets in the input.
                 # I haven't tested what will happen, but I know it won't work as you expect.
+                antecedents = str();
+                antecedentsByAntecedentStr = dict();
+
                 for condition in rule.Conditions:
-                    logicalConnective = condition.GetLogicalConnectiveOperand;
+                    # if variableName is variableValue
                     antecedent = self.AntecedentsByName[condition.VariableName][condition.VariableValue];
+
+                    logicalConnective = condition.GetLogicalConnectiveOperand;
+                    antecedents += logicalConnective;
+
+                    # no other obvious way of dealing with N chained connectives
+                    # use a buffer dict which holds the antecedent based on their str(antecedent) value
+                    # we later eval to get the term aggregate. This is a VERY horrible way of doing this
+                    # but I couldn't really spot any other way of dealing with this issue other than reflection
+                    antecedentStr = str(antecedent);
+                    antecedents += 'antecedentsByAntecedentStr["' + antecedentStr + '"]';
+                    antecedentsByAntecedentStr[antecedentStr] = antecedent;
 
                 # then variableName is variableValue
                 result = self.ConsequentsByName[rule.Result.VariableName][rule.Result.VariableValue];
 
-                #fuzzyRule = ctrl.Rule(eval(antecedents), result);
+                # eval on antecedents creates a potentially complex term aggregate
+                fuzzyRule = ctrl.Rule(eval(antecedents), result);
 
-                #self.RulesByRuleBaseName[ruleBaseName]\
-                #    .append(fuzzyRule);
+                self.RulesByRuleBaseName[ruleBaseName]\
+                    .append(fuzzyRule);
 
         return self.RulesByRuleBaseName;
 
