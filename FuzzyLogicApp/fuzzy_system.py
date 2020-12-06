@@ -31,16 +31,16 @@ class FuzzySystem():
         print("Configuring fuzzy rule based system. . .");
         # instance variables
         # using this as a hint to what each instance variable is since Python isn't strongly typed
-        self.Rules = dict();
-        self.Variables = dict();
+        self.RulesByRuleBaseName = dict();
+        self.VariableValuesByVariableName = dict();
         self.Measurements = list();
 
         self.AntecedentNames = set();
         self.ConsequentNames = set();
-        self.Antecedents = dict();
-        self.Consequents = dict();
-        self.AntecedentMembershipFunctions = dict();
-        self.ConsequentMembershipFunctions = dict();
+        self.AntecedentsByName = dict();
+        self.ConsequentsByName = dict();
+        self.AntecedentMembershipFunctionsByName = dict();
+        self.ConsequentMembershipFunctionsByName = dict();
 
         # actual setup, not actually used as getters as they set the instance variables within the calls
         # whilst likely not semantically correct to be called a getter, I use this as a form of 'typing'
@@ -74,7 +74,7 @@ class FuzzySystem():
                 print("Error: Unhandled scenario for rules.");
                 continue;
 
-        self.Rules = rules;
+        self.RulesByRuleBaseName = rules;
         return rules;
 
     def GetVariables(self):
@@ -95,7 +95,7 @@ class FuzzySystem():
                 print("Error: Unhandled scenario for variables.");
                 continue;
 
-        self.Variables = variables;
+        self.VariableValuesByVariableName = variables;
         return variables;
 
     def GetMeasurements(self):
@@ -116,12 +116,12 @@ class FuzzySystem():
 
     def GetAntecedentAndConsequentNames(self):
         print("Getting unique antecedents and consequents. . .");
-        if (not self.Rules):
+        if (not self.RulesByRuleBaseName):
             # no values
             return;
 
         # get antecedents and consequents names
-        for ruleBaseName, ruleBaseRules in self.Rules.items():
+        for ruleBaseName, ruleBaseRules in self.RulesByRuleBaseName.items():
 
             for rule in ruleBaseRules:
                 self.ConsequentNames.add(rule.Result.VariableName);
@@ -135,7 +135,7 @@ class FuzzySystem():
         print("Creating antecedent objects. . .");
         # set antecedents and their ranges
         for name in self.AntecedentNames:
-            antecedentValues = self.Variables[name];
+            antecedentValues = self.VariableValuesByVariableName[name];
 
             # TODO: better way of getting min and max?
             antecedentMinValue = min([a.MinValue for a in antecedentValues]);
@@ -143,15 +143,15 @@ class FuzzySystem():
 
             antecedentValueRange = np.arange(antecedentMinValue, antecedentMaxValue, self.Step);
 
-            self.Antecedents[name] = ctrl.Antecedent(antecedentValueRange, name);
+            self.AntecedentsByName[name] = ctrl.Antecedent(antecedentValueRange, name);
 
-        return self.Antecedents;
+        return self.AntecedentsByName;
 
     def GetConsequents(self):
         print("Creating consequent objects. . .");
         # set consequents and their ranges
         for name in self.ConsequentNames:
-            consequentValues = self.Variables[name];
+            consequentValues = self.VariableValuesByVariableName[name];
 
             # TODO: better way of getting min and max?
             consequentMinValue = min([c.MinValue for c in consequentValues]);
@@ -159,15 +159,15 @@ class FuzzySystem():
 
             consequentValueRange = np.arange(consequentMinValue, consequentMaxValue, self.Step);
 
-            self.Consequents[name] = ctrl.Consequent(consequentValueRange, name);
+            self.ConsequentsByName[name] = ctrl.Consequent(consequentValueRange, name);
 
-        return self.Consequents;
+        return self.ConsequentsByName;
 
     def GetAntecedentMembershipFunctions(self):
         for name in self.AntecedentNames:
-            antecedentValues = self.Variables[name];
-            antecedent = self.Antecedents[name];
-            self.AntecedentMembershipFunctions[name] = list();
+            antecedentValues = self.VariableValuesByVariableName[name];
+            antecedent = self.AntecedentsByName[name];
+            self.AntecedentMembershipFunctionsByName[name] = list();
 
             for antecedentValue in antecedentValues:
                 # will always be 4tuple input => always have a trapezoidal mf
@@ -177,15 +177,17 @@ class FuzzySystem():
 
                 # set up each antecedent value name and membership function
                 antecedent[antecedentValue.Name] = trapezoidalMembershipFunction;
-                self.AntecedentMembershipFunctions[name].append(trapezoidalMembershipFunction);
 
-        return self.AntecedentMembershipFunctions;
+                self.AntecedentMembershipFunctionsByName[name]\
+                    .append(trapezoidalMembershipFunction);
+
+        return self.AntecedentMembershipFunctionsByName;
 
     def GetConsequentMembershipFunctions(self):
         for name in self.ConsequentNames:
-            consequentValues = self.Variables[name];
-            consequent = self.Consequents[name];
-            self.ConsequentMembershipFunctions[name] = list();
+            consequentValues = self.VariableValuesByVariableName[name];
+            consequent = self.ConsequentsByName[name];
+            self.ConsequentMembershipFunctionsByName[name] = list();
 
             for consequentValue in consequentValues:
                 # will always be 4tuple input => always have a trapezoidal mf
@@ -194,9 +196,11 @@ class FuzzySystem():
                     consequentValue.TrapezoidalInput);
 
                 consequent[consequentValue.Name] = trapezoidalMembershipFunction;
-                self.ConsequentMembershipFunctions[name].append(trapezoidalMembershipFunction);
 
-        return self.ConsequentMembershipFunctions;
+                self.ConsequentMembershipFunctionsByName[name]\
+                    .append(trapezoidalMembershipFunction);
+
+        return self.ConsequentMembershipFunctionsByName;
 
     # helper
     def __ReadDataFile(self, fileName):
@@ -205,12 +209,12 @@ class FuzzySystem():
             .splitlines();
 
     def PrintFclInput(self):
-        for ruleBaseName, ruleBaseRules in self.Rules.items():
+        for ruleBaseName, ruleBaseRules in self.RulesByRuleBaseName.items():
             print ("\nRule base - " + ruleBaseName + ":");
             for rule in ruleBaseRules:
                 print(rule);
 
-        for variableName, variableValues in self.Variables.items():
+        for variableName, variableValues in self.VariableValuesByVariableName.items():
             print ("\nVariable - " + variableName + ":");
             for value in variableValues:
                 print(value);
@@ -221,10 +225,10 @@ class FuzzySystem():
 
     def GraphTest(self):
         # placeholder, just wanting to test whether the membership functions are correct
-        for antecedentName, antecedent in self.Antecedents.items():
+        for antecedentName, antecedent in self.AntecedentsByName.items():
             antecedent.view();
 
-        for consequentName, consequent in self.Consequents.items():
+        for consequentName, consequent in self.ConsequentsByName.items():
             consequent.view();
 
         plt.show()
