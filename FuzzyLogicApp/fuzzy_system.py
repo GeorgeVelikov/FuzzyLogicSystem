@@ -31,9 +31,9 @@ class FuzzySystem():
         print("Configuring fuzzy rule based system. . .");
         # instance variables
         # using this as a hint to what each instance variable is since Python isn't strongly typed
-        self.RulesByRuleBaseName = dict();
-        self.VariableValuesByVariableName = dict();
-        self.Measurements = list();
+        self.InputRulesByRuleBaseName = dict();
+        self.InputVariableValuesByVariableName = dict();
+        self.InputMeasurements = list();
 
         self.AntecedentNames = set();
         self.ConsequentNames = set();
@@ -45,9 +45,9 @@ class FuzzySystem():
         # actual setup, not actually used as getters as they set the instance variables within the calls
         # whilst likely not semantically correct to be called a getter, I use this as a form of 'typing'
         # so that the variables can be easily identified type-wise
-        self.GetRules();
-        self.GetVariables();
-        self.GetMeasurements();
+        self.GetInputRules();
+        self.GetInputVariables();
+        self.GetInputMeasurements();
 
         self.GetAntecedentAndConsequentNames();
         self.GetAntecedents();
@@ -56,7 +56,7 @@ class FuzzySystem():
         self.GetConsequentMembershipFunctions();
 
     # set up
-    def GetRules(self):
+    def GetInputRules(self):
         print("Reading rules. . .");
         ruleLines = self.__ReadDataFile(self.RulesFileName);
         rules = dict();
@@ -74,10 +74,10 @@ class FuzzySystem():
                 print("Error: Unhandled scenario for rules.");
                 continue;
 
-        self.RulesByRuleBaseName = rules;
+        self.InputRulesByRuleBaseName = rules;
         return rules;
 
-    def GetVariables(self):
+    def GetInputVariables(self):
         print("Reading variables. . .");
         variableLines = self.__ReadDataFile(self.VariablesFileName);
         variables = dict();
@@ -95,10 +95,10 @@ class FuzzySystem():
                 print("Error: Unhandled scenario for variables.");
                 continue;
 
-        self.VariableValuesByVariableName = variables;
+        self.InputVariableValuesByVariableName = variables;
         return variables;
 
-    def GetMeasurements(self):
+    def GetInputMeasurements(self):
         print("Reading measurements. . .");
         measurementLines = self.__ReadDataFile(self.MeasurementsFileName);
         measurements = list();
@@ -111,17 +111,17 @@ class FuzzySystem():
             else:
                 print("Error: Unhandled scenario for measurements.");
 
-        self.Measurements = measurements;
+        self.InputMeasurements = measurements;
         return measurements;
 
     def GetAntecedentAndConsequentNames(self):
         print("Getting unique antecedents and consequents. . .");
-        if (not self.RulesByRuleBaseName):
+        if (not self.InputRulesByRuleBaseName):
             # no values
             return;
 
         # get antecedents and consequents names
-        for ruleBaseName, ruleBaseRules in self.RulesByRuleBaseName.items():
+        for ruleBaseName, ruleBaseRules in self.InputRulesByRuleBaseName.items():
 
             for rule in ruleBaseRules:
                 self.ConsequentNames.add(rule.Result.VariableName);
@@ -135,7 +135,7 @@ class FuzzySystem():
         print("Creating antecedent objects. . .");
         # set antecedents and their ranges
         for name in self.AntecedentNames:
-            antecedentValues = self.VariableValuesByVariableName[name];
+            antecedentValues = self.InputVariableValuesByVariableName[name];
 
             # TODO: better way of getting min and max?
             antecedentMinValue = min([a.MinValue for a in antecedentValues]);
@@ -151,7 +151,7 @@ class FuzzySystem():
         print("Creating consequent objects. . .");
         # set consequents and their ranges
         for name in self.ConsequentNames:
-            consequentValues = self.VariableValuesByVariableName[name];
+            consequentValues = self.InputVariableValuesByVariableName[name];
 
             # TODO: better way of getting min and max?
             consequentMinValue = min([c.MinValue for c in consequentValues]);
@@ -165,7 +165,7 @@ class FuzzySystem():
 
     def GetAntecedentMembershipFunctions(self):
         for name in self.AntecedentNames:
-            antecedentValues = self.VariableValuesByVariableName[name];
+            antecedentValues = self.InputVariableValuesByVariableName[name];
             antecedent = self.AntecedentsByName[name];
             self.AntecedentMembershipFunctionsByName[name] = list();
 
@@ -185,7 +185,7 @@ class FuzzySystem():
 
     def GetConsequentMembershipFunctions(self):
         for name in self.ConsequentNames:
-            consequentValues = self.VariableValuesByVariableName[name];
+            consequentValues = self.InputVariableValuesByVariableName[name];
             consequent = self.ConsequentsByName[name];
             self.ConsequentMembershipFunctionsByName[name] = list();
 
@@ -209,18 +209,18 @@ class FuzzySystem():
             .splitlines();
 
     def PrintFclInput(self):
-        for ruleBaseName, ruleBaseRules in self.RulesByRuleBaseName.items():
+        for ruleBaseName, ruleBaseRules in self.InputRulesByRuleBaseName.items():
             print ("\nRule base - " + ruleBaseName + ":");
             for rule in ruleBaseRules:
                 print(rule);
 
-        for variableName, variableValues in self.VariableValuesByVariableName.items():
+        for variableName, variableValues in self.InputVariableValuesByVariableName.items():
             print ("\nVariable - " + variableName + ":");
             for value in variableValues:
                 print(value);
 
         print("\nMeasurements:")
-        for measurement in self.Measurements:
+        for measurement in self.InputMeasurements:
             print(measurement);
 
     def GraphTest(self):
