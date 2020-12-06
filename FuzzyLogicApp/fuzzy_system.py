@@ -320,8 +320,12 @@ class FuzzySystem():
         return;
 
     def PlotMeasurements(self):
+        print("\nConsequent values:");
         for name, consequent in self.ConsequentsByName.items():
             consequent.view(sim = self.ControlSystemSimulation);
+
+            consequentValue = self.ControlSystemSimulation.output[name];
+            print("\t" + name + " = " + str(consequentValue));
         return;
 
     def ShowPlots(self):
