@@ -234,4 +234,8 @@ class FuzzySystem():
         for consequentName, consequent in self.ConsequentsByName.items():
             consequent.view();
 
+        # you need to call matplotlib.show because scikit fuzzy relies on it and can't
+        # really tell whenever we are ready with calling .view(). If we don't call .show()
+        # we will get a bunch of "hanging" windows.
+        # https://stackoverflow.com/a/60235346
         plt.show()
