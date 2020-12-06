@@ -337,6 +337,12 @@ class FuzzySystem():
 
         return;
 
+    def PrintDefuzzifiedAntecedents(self):
+        return;
+
+    def PrintDefuzzifiedConsequents(self):
+        return;
+
     def PlotAntecedents(self):
         # placeholder, just wanting to test whether the membership functions are correct
         for antecedentName, antecedent in self.AntecedentsByName.items():
