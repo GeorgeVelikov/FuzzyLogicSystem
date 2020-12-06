@@ -45,10 +45,15 @@ class FuzzySystem():
         self.AntecedentsByName = dict();
         self.ConsequentsByName = dict();
 
+        self.AntecedentRangesByName = dict();
+        self.ConsequentRangesByName = dict();
+
         self.AntecedentMembershipFunctionsByName = dict();
         self.ConsequentMembershipFunctionsByName = dict();
 
         self.RulesByRuleBaseName = dict();
+
+        self.AntecedentDefuzzifiedMethodValuesByAntecedentName = dict();
 
         self.ControlSystem = None;
         self.ControlSystemSimulation = None;
@@ -199,6 +204,7 @@ class FuzzySystem():
 
             antecedentValueRange = np.arange(antecedentMinValue, antecedentMaxValue, self.Step);
 
+            self.AntecedentRangesByName[name] = antecedentValueRange;
             self.AntecedentsByName[name] = ctrl.Antecedent(antecedentValueRange, name);
 
         return self.AntecedentsByName;
@@ -215,6 +221,7 @@ class FuzzySystem():
 
             consequentValueRange = np.arange(consequentMinValue, consequentMaxValue, self.Step);
 
+            self.ConsequentRangesByName[name] = consequentValueRange;
             self.ConsequentsByName[name] = ctrl.Consequent(consequentValueRange, name);
 
         return self.ConsequentsByName;
@@ -281,7 +288,16 @@ class FuzzySystem():
         return self.ControlSystemSimulation;
 
     def GetDefuzzifiedValues(self):
-        return;
+        for name, membershipFunctions in self.AntecedentMembershipFunctionsByName.items():
+            for membershipFunction in membershipFunctions:
+                self.AntecedentDefuzzifiedMethodValuesByAntecedentName[name] = dict();
+                valueRange = self.AntecedentRangesByName[name];
+
+                for method in DefuzzifyingMethodEnum.Values():
+                    self.AntecedentDefuzzifiedMethodValuesByAntecedentName[name][str(method)] = \
+                        fuzz.defuzz(valueRange, membershipFunction, str(method));
+
+        return self.AntecedentDefuzzifiedMethodValuesByAntecedentName;
 
     # helper
     def __ReadDataFile(self, fileName):
