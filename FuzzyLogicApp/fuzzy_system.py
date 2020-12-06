@@ -296,7 +296,7 @@ class FuzzySystem():
                 valueRange = self.AntecedentRangesByName[name];
 
                 for method in DefuzzifyingMethodEnum.Values():
-                    self.AntecedentDefuzzifiedMethodValuesByAntecedentName[name][str(method)] = \
+                    self.AntecedentDefuzzifiedMethodValuesByAntecedentName[name][method.Name] = \
                         fuzz.defuzz(valueRange, membershipFunction, str(method));
 
         return self.AntecedentDefuzzifiedMethodValuesByAntecedentName;
@@ -308,7 +308,7 @@ class FuzzySystem():
                 valueRange = self.ConsequentRangesByName[name];
 
                 for method in DefuzzifyingMethodEnum.Values():
-                    self.ConsequentDefuzzifiedMethodValuesByConsequentName[name][str(method)] = \
+                    self.ConsequentDefuzzifiedMethodValuesByConsequentName[name][method.Name] = \
                         fuzz.defuzz(valueRange, membershipFunction, str(method));
 
         return self.ConsequentDefuzzifiedMethodValuesByConsequentName;
@@ -338,9 +338,23 @@ class FuzzySystem():
         return;
 
     def PrintDefuzzifiedAntecedents(self):
+        print("\nDefuzzifed Antecedent Values:");
+
+        for valueName, defuzzifiedValues in self.AntecedentDefuzzifiedMethodValuesByAntecedentName.items():
+            print("\t" + valueName);
+            for methodName, value in defuzzifiedValues.items():
+                print("\t\t" + methodName + " - " + str(value));
+
         return;
 
     def PrintDefuzzifiedConsequents(self):
+        print("\nDefuzzifed Consequent Values:");
+
+        for valueName, defuzzifiedValues in self.ConsequentDefuzzifiedMethodValuesByConsequentName.items():
+            print("\t" + valueName);
+            for methodName, value in defuzzifiedValues.items():
+                print("\t\t" + methodName + " - " + str(value));
+
         return;
 
     def PlotAntecedents(self):

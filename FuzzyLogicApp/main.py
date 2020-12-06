@@ -6,6 +6,9 @@ def main():
 
     fuzzySystem.PrintFclInput();
 
+    fuzzySystem.PrintDefuzzifiedAntecedents();
+    fuzzySystem.PrintDefuzzifiedConsequents();
+
     fuzzySystem.PlotAntecedents();
     fuzzySystem.PlotConsequents();
     #fuzzySystem.PlotRules();
