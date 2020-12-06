@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from rule import Rule;
 from variable_value import VariableValue;
 from variable_measurement import VariableMeasurement;
+from defuzzifying_method_enum import DefuzzifyingMethodEnum;
 
 class FuzzySystem():
     # constants
@@ -71,6 +72,8 @@ class FuzzySystem():
 
         self.GetControlSystem();
         self.GetControlSystemSimulation();
+
+        self.GetDefuzzifiedValues();
 
     # setup
     def GetInputRules(self):
@@ -170,7 +173,7 @@ class FuzzySystem():
                     antecedentStr = str(antecedent);
                     antecedentsByAntecedentStr[antecedentStr] = antecedent;
 
-                    antecedents += condition.GetLogicalConnectiveOperand;
+                    antecedents += condition.LogicalConnective.Operand;
                     antecedents += 'antecedentsByAntecedentStr["' + antecedentStr + '"]';
 
                 # then variableName is variableValue
@@ -276,6 +279,9 @@ class FuzzySystem():
         self.ControlSystemSimulation.compute();
 
         return self.ControlSystemSimulation;
+
+    def GetDefuzzifiedValues(self):
+        return;
 
     # helper
     def __ReadDataFile(self, fileName):

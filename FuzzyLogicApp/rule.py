@@ -4,13 +4,8 @@ from logical_connective_enum import LogicalConnectiveEnum
 class RuleCondition:
     def __str__(self):
         # probably better to use enum.name instead of literal strings
-        connective = \
-            "\t" if self.LogicalConnective == LogicalConnectiveEnum._None\
-            else "\tand " if self.LogicalConnective == LogicalConnectiveEnum.And\
-            else "\tor " if self.LogicalConnective== LogicalConnectiveEnum.Or\
-            else "\tUNKNOWN ";
-
-        value = connective + self.VariableName + " is " + self.VariableValue;
+        value = "\t" + str(self.LogicalConnective) + " " +\
+           self.VariableName + " is " + self.VariableValue;
 
         return value;
 
@@ -24,17 +19,6 @@ class RuleCondition:
         self.VariableName = variableName;
         self.VariableValue = variableValue;
         return
-
-    @property
-    def GetLogicalConnectiveOperand(self):
-        if (self.LogicalConnective == LogicalConnectiveEnum._None):
-            return str();
-        elif (self.LogicalConnective == LogicalConnectiveEnum.And):
-            return "&";
-        elif (self.LogicalConnective == LogicalConnectiveEnum.Or):
-            return "|";
-        else:
-            raise Exception("Incorrect logical connective.");
 
 class Rule:
     def __str__(self):
