@@ -1,5 +1,10 @@
 # Vs stuff
-.vs/
+# User-specific files
+/.vs
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
