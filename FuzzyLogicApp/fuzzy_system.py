@@ -298,14 +298,18 @@ class FuzzySystem():
         for measurement in self.InputMeasurements:
             print(measurement);
 
+        return;
+
     def PlotAntecedents(self):
         # placeholder, just wanting to test whether the membership functions are correct
         for antecedentName, antecedent in self.AntecedentsByName.items():
             antecedent.view();
+        return;
 
     def PlotConsequents(self):
         for consequentName, consequent in self.ConsequentsByName.items():
             consequent.view();
+        return;
 
     def PlotRules(self):
         # plot the rules - they're really not that helpful as they are not notated
@@ -313,8 +317,11 @@ class FuzzySystem():
         for ruleBaseName, rules in self.RulesByRuleBaseName.items():
             for rule in rules:
                 rule.view();
+        return;
 
     def PlotMeasurements(self):
+        for name, consequent in self.ConsequentsByName.items():
+            consequent.view(sim = self.ControlSystemSimulation);
         return;
 
     def ShowPlots(self):
@@ -323,3 +330,4 @@ class FuzzySystem():
         # we will get a bunch of "hanging" windows.
         # https://stackoverflow.com/a/60235346
         plt.show()
+        return;
