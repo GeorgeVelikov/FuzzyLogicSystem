@@ -224,4 +224,7 @@ class Configuration():
         for antecedentName, antecedent in self.Antecedents.items():
             antecedent.view();
 
+        for consequentName, consequent in self.Consequents.items():
+            consequent.view();
+
         plt.show()
