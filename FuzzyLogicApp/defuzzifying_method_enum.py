@@ -24,9 +24,9 @@ class DefuzzifyingMethodEnum(Enum):
         else:
             raise Exception("Unknown Defuzzifying Method used");
 
-    def Values(self):
-        return [self.CentroidOfArea,\
-            self.BisectorOfArea,\
-            self.MeanOfMaximum,\
-            self.SmallestOfMaximum,\
-            self.LargestOfMaximum];
+    def Values():
+        return [DefuzzifyingMethodEnum.CentroidOfArea,\
+            DefuzzifyingMethodEnum.BisectorOfArea,\
+            DefuzzifyingMethodEnum.MeanOfMaximum,\
+            DefuzzifyingMethodEnum.SmallestOfMaximum,\
+            DefuzzifyingMethodEnum.LargestOfMaximum];
