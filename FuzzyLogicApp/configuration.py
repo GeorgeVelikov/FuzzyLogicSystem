@@ -181,7 +181,7 @@ class Configuration():
         return self.AntecedentMembershipFunctions;
 
     def GetConsequentMembershipFunctions(self):
-        for name in self.AntecedentNames:
+        for name in self.ConsequentNames:
             consequentValues = self.Variables[name];
             consequent = self.Consequents[name];
             self.ConsequentMembershipFunctions[name] = list();
