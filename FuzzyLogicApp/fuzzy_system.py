@@ -31,10 +31,13 @@ class FuzzySystem():
         print("Configuring fuzzy rule based system. . .");
         # instance variables
         # using this as a hint to what each instance variable is since Python isn't strongly typed
+
+        # input values
         self.InputRulesByRuleBaseName = dict();
         self.InputVariableValuesByVariableName = dict();
         self.InputMeasurements = list();
 
+        # actual fuzzy system values
         self.AntecedentNames = set();
         self.ConsequentNames = set();
         self.AntecedentsByName = dict();
