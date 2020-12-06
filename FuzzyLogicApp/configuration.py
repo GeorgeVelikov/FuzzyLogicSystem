@@ -42,16 +42,15 @@ class Configuration():
         # actual setup, not actually used as getters as they set the instance variables within the calls
         # whilst likely not semantically correct to be called a getter, I use this as a form of 'typing'
         # so that the variables can be easily identified type-wise
-        self.GetRules;
-        self.GetVariables;
-        self.GetMeasurements;
+        self.GetRules();
+        self.GetVariables();
+        self.GetMeasurements();
 
-        self.GetAntecedentAndConsequentNames;
-        self.GetAntecedents;
-        self.GetConsequents;
+        self.GetAntecedentAndConsequentNames();
+        self.GetAntecedents();
+        self.GetConsequents();
 
     # set up
-    @property
     def GetRules(self):
         print("Reading rules. . .");
         ruleLines = self.__ReadDataFile(self.RulesFileName);
@@ -73,7 +72,6 @@ class Configuration():
         self.Rules = rules;
         return rules;
 
-    @property
     def GetVariables(self):
         print("Reading variables. . .");
         variableLines = self.__ReadDataFile(self.VariablesFileName);
@@ -95,7 +93,6 @@ class Configuration():
         self.Variables = variables;
         return variables;
 
-    @property
     def GetMeasurements(self):
         print("Reading measurements. . .");
         measurementLines = self.__ReadDataFile(self.MeasurementsFileName);
@@ -112,7 +109,6 @@ class Configuration():
         self.Measurements = measurements;
         return measurements;
 
-    @property
     def GetAntecedentAndConsequentNames(self):
         print("Getting unique antecedents and consequents. . .");
         if (not self.Rules):
@@ -130,7 +126,6 @@ class Configuration():
 
         return self.AntecedentNames, self.ConsequentNames;
 
-    @property
     def GetAntecedents(self):
         print("Creating antecedent objects. . .");
         # set antecedents and their ranges
@@ -147,7 +142,6 @@ class Configuration():
 
         return self.Antecedents;
 
-    @property
     def GetConsequents(self):
         print("Creating consequent objects. . .");
         # set consequents and their ranges
