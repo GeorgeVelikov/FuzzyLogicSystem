@@ -98,8 +98,7 @@ class Rule:
             .replace("or ", "#or# ")\
             .split("#");
 
-        # get rid of empty entries, couldn't figure out a neater way to do it.
-        # Definitely hacky
+        # TODO: get rid of empty entries, couldn't figure out a neater way to do it. Definitely hacky
         if "" in chainedConditions:
             chainedConditions.remove("");
 

@@ -22,7 +22,7 @@ class Configuration():
 
     @property
     def Step(self):
-        # step is 1 atm, do we want it to be more accurate?
+        # TODO: step is 1 atm, do we want it to be more accurate?
         return 1;
 
     # constructor
