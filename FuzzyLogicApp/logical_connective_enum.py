@@ -25,6 +25,6 @@ class LogicalConnectiveEnum(Enum):
         elif self.value == self.Or.value:
             return "|";
 
-    def Values(self):
-        return [self.And,\
-            self.Or];
+    def Values():
+        return [LogicalConnectiveEnum.And,\
+            LogicalConnectiveEnum.Or];
