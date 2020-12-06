@@ -6,7 +6,12 @@ def main():
 
     fuzzySystem.PrintFclInput();
 
-    fuzzySystem.GraphTest();
+    fuzzySystem.PlotAntecedents();
+    fuzzySystem.PlotConsequents();
+    #fuzzySystem.PlotRules();
+    fuzzySystem.PlotMeasurements();
+
+    fuzzySystem.ShowPlots();
 
     input("Press any key to continue . . .");
     return;

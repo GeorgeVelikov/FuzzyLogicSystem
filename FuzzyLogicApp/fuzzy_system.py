@@ -298,20 +298,26 @@ class FuzzySystem():
         for measurement in self.InputMeasurements:
             print(measurement);
 
-    def GraphTest(self):
+    def PlotAntecedents(self):
         # placeholder, just wanting to test whether the membership functions are correct
         for antecedentName, antecedent in self.AntecedentsByName.items():
             antecedent.view();
 
+    def PlotConsequents(self):
         for consequentName, consequent in self.ConsequentsByName.items():
             consequent.view();
 
-        # plot the rules - they're really not that helpful as t hey are not notated
+    def PlotRules(self):
+        # plot the rules - they're really not that helpful as they are not notated
         # it is interesting to see how scikit fuzzy internally graphs them out though
-        #for ruleBaseName, rules in self.RulesByRuleBaseName.items():
-        #    for rule in rules:
-        #        rule.view();
+        for ruleBaseName, rules in self.RulesByRuleBaseName.items():
+            for rule in rules:
+                rule.view();
 
+    def PlotMeasurements(self):
+        return;
+
+    def ShowPlots(self):
         # you need to call matplotlib.show because scikit fuzzy relies on it and can't
         # really tell whenever we are ready with calling .view(). If we don't call .show()
         # we will get a bunch of "hanging" windows.
