@@ -283,6 +283,7 @@ class FuzzySystem():
             .read()\
             .splitlines();
 
+    #output
     def PrintFclInput(self):
         for ruleBaseName, ruleBaseRules in self.InputRulesByRuleBaseName.items():
             print ("\nRule base - " + ruleBaseName + ":");
