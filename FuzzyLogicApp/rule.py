@@ -119,8 +119,8 @@ class Rule:
             chainedVariableConnectiveText = connective.strip();
 
             chainedVariableConnectiveEnum = \
-                LogicalConnectiveEnum.And if chainedVariableConnectiveText == LogicalConnectiveEnum.And.value \
-                else LogicalConnectiveEnum.Or if chainedVariableConnectiveText == LogicalConnectiveEnum.Or.value \
+                LogicalConnectiveEnum.And if chainedVariableConnectiveText == str(LogicalConnectiveEnum.And) \
+                else LogicalConnectiveEnum.Or if chainedVariableConnectiveText == str(LogicalConnectiveEnum.Or) \
                 else LogicalConnectiveEnum._None
 
             if (chainedVariableConnectiveEnum == LogicalConnectiveEnum._None):
