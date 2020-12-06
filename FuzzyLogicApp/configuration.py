@@ -30,41 +30,40 @@ class Configuration():
         print("Configuring fuzzy rule based system. . .");
         # instance variables
         # using this as a hint to what each instance variable is since Python isn't strongly typed
-        self.Rules = {};
-        self.Variables = {};
-        self.Measurements = [];
+        self.Rules = dict();
+        self.Variables = dict();
+        self.Measurements = list();
 
         self.AntecedentNames = set();
         self.ConsequentNames = set();
-        self.Antecedents = {};
-        self.Consequents = {};
+        self.Antecedents = dict();
+        self.Consequents = dict();
 
-        # actual setup
-        self.Rules = self.GetRules;
-        self.Variables = self.GetVariables;
-        self.Measurements = self.GetMeasurements;
+        # actual setup, not actually used as getters as they set the instance variables within the calls
+        # whilst likely not semantically correct to be called a getter, I use this as a form of 'typing'
+        # so that the variables can be easily identified type-wise
+        self.GetRules;
+        self.GetVariables;
+        self.GetMeasurements;
 
-        self.AntecedentNames, self.ConsequentNames = self.GetAntecedentAndConsequentNames;
-        self.Antecedents = self.GetAntecedents;
-        self.Consequents = self.GetConsequents;
+        self.GetAntecedentAndConsequentNames;
+        self.GetAntecedents;
+        self.GetConsequents;
 
     # set up
     @property
     def GetRules(self):
         print("Reading rules. . .");
         ruleLines = self.__ReadDataFile(self.RulesFileName);
-        rules = {};
-
-        ruleBaseName = "";
-        ruleText = [];
+        rules = dict();
+        ruleBaseName = str();
 
         for line in ruleLines:
             if not line:
                 continue;
             elif ":" not in line:
                 ruleBaseName = line;
-                ruleText.clear();
-                rules[ruleBaseName] = [];
+                rules[ruleBaseName] = list();
             elif ruleBaseName and line:
                 rules[ruleBaseName].append(Rule(line));
             else:
@@ -78,17 +77,14 @@ class Configuration():
     def GetVariables(self):
         print("Reading variables. . .");
         variableLines = self.__ReadDataFile(self.VariablesFileName);
-        variables = {};
-
-        variableName = "";
-        variableValuesText = [];
+        variables = dict();
+        variableName = str();
 
         for line in variableLines:
             if not line:
                 continue;
             elif not any(map(str.isdigit, line)):
                 variableName = line;
-                variableValuesText.clear();
                 variables[variableName] = [];
             elif variableName and line:
                 variables[variableName].append(VariableValue(line));
@@ -103,8 +99,7 @@ class Configuration():
     def GetMeasurements(self):
         print("Reading measurements. . .");
         measurementLines = self.__ReadDataFile(self.MeasurementsFileName);
-
-        measurements = [];
+        measurements = list();
 
         for line in measurementLines:
             if not line:

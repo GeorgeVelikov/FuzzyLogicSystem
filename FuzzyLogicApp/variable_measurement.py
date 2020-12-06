@@ -4,8 +4,9 @@ class VariableMeasurement:
         return "\t" + self.Name + " = " + str(self.Value);
 
     def __init__(self, variableMeasurementText):
-        self.Name = "";
-        self.Value = 0;
+        self.Name = str();
+        # TODO: floats in Python are bad, mmkay
+        self.Value = float();
 
         measurementName = variableMeasurementText\
             .split("=")[0]\

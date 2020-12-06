@@ -3,8 +3,8 @@ class VariableValue:
         return "\t" + self.Name + " defined in " + str(self.Tuple);
 
     def __init__(self, variableValueText):
-        self.Name = "";
-        self.Tuple = [];
+        self.Name = str();
+        self.Tuple = tuple();
 
         variableName = variableValueText\
             .split(" ")[0]\
