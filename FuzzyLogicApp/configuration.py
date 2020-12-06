@@ -38,6 +38,8 @@ class Configuration():
         self.ConsequentNames = set();
         self.Antecedents = dict();
         self.Consequents = dict();
+        self.AntecedentMembershipFunctions = dict();
+        self.ConsequentMembershipFunctions = dict();
 
         # actual setup, not actually used as getters as they set the instance variables within the calls
         # whilst likely not semantically correct to be called a getter, I use this as a form of 'typing'
@@ -49,6 +51,8 @@ class Configuration():
         self.GetAntecedentAndConsequentNames();
         self.GetAntecedents();
         self.GetConsequents();
+        self.GetAntecedentMembershipFunctions();
+        self.GetConsequentMembershipFunctions();
 
     # set up
     def GetRules(self):
@@ -157,6 +161,41 @@ class Configuration():
             self.Consequents[name] = ctrl.Consequent(consequentValueRange, name);
 
         return self.Consequents;
+
+    def GetAntecedentMembershipFunctions(self):
+        for name in self.AntecedentNames:
+            antecedentValues = self.Variables[name];
+            antecedent = self.Antecedents[name];
+            self.AntecedentMembershipFunctions[name] = list();
+
+            for antecedentValue in antecedentValues:
+                # will always be 4tuple input => always have a trapezoidal mf
+                trapezoidalMembershipFunction = fuzz.trapmf(\
+                    antecedent.universe,\
+                    antecedentValue.TrapezoidalInput);
+
+                # set up each antecedent value name and membership function
+                antecedent[antecedentValue.Name] = trapezoidalMembershipFunction;
+                self.AntecedentMembershipFunctions[name].append(trapezoidalMembershipFunction);
+
+        return self.AntecedentMembershipFunctions;
+
+    def GetConsequentMembershipFunctions(self):
+        for name in self.AntecedentNames:
+            consequentValues = self.Variables[name];
+            consequent = self.Consequents[name];
+            self.ConsequentMembershipFunctions[name] = list();
+
+            for consequentValue in consequentValues:
+                # will always be 4tuple input => always have a trapezoidal mf
+                trapezoidalMembershipFunction = fuzz.trapmf(\
+                    consequent.universe,\
+                    consequentValue.TrapezoidalInput);
+
+                consequent[consequentValue.Name] = trapezoidalMembershipFunction;
+                self.ConsequentMembershipFunctions[name].append(trapezoidalMembershipFunction);
+
+        return self.ConsequentMembershipFunctions;
 
     # helper
     def __ReadDataFile(self, fileName):
