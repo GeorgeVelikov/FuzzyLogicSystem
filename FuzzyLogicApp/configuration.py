@@ -1,6 +1,7 @@
 import numpy as np;
 import skfuzzy as fuzz;
 import skfuzzy.control as ctrl;
+import matplotlib.pyplot as plt
 
 from rule import Rule;
 from variable_value import VariableValue;
@@ -217,3 +218,10 @@ class Configuration():
         print("\nMeasurements:")
         for measurement in self.Measurements:
             print(measurement);
+
+    def GraphTest(self):
+        # placeholder, just wanting to test whether the membership functions are correct
+        for antecedentName, antecedent in self.Antecedents.items():
+            antecedent.view();
+
+        plt.show()

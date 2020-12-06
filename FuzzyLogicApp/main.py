@@ -6,6 +6,8 @@ def main():
 
     configuration.PrintFclInput();
 
+    configuration.GraphTest();
+
     input("Press any key to continue . . .");
     return;
 
