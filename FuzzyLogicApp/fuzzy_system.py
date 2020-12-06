@@ -165,8 +165,8 @@ class FuzzySystem():
                     # we later eval to get the term aggregate. This is a VERY horrible way of doing this
                     # but I couldn't really spot any other way of dealing with this issue other than reflection
                     antecedentStr = str(antecedent);
-                    antecedents += 'antecedentsByAntecedentStr["' + antecedentStr + '"]';
                     antecedentsByAntecedentStr[antecedentStr] = antecedent;
+                    antecedents += 'antecedentsByAntecedentStr["' + antecedentStr + '"]';
 
                 # then variableName is variableValue
                 result = self.ConsequentsByName[rule.Result.VariableName][rule.Result.VariableValue];
