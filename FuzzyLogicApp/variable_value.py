@@ -48,7 +48,7 @@ class VariableValue:
 
     @property
     def TrapezoidalInput(self):
-        return [self.A - self.Alpha, self.A, self.B, self.B + self.Beta];
+        return [self.MinValue, self.A, self.B, self.MaxValue];
 
     @property
     def MinValue(self):
