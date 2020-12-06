@@ -49,6 +49,8 @@ class FuzzySystem():
 
         self.RulesByRuleBaseName = dict();
 
+        self.ControlSystem = None;
+
         # actual setup, not actually used as getters as they set the instance variables within the calls
         # whilst likely not semantically correct to be called a getter, I use this as a form of 'typing'
         # so that the variables can be easily identified type-wise
@@ -65,6 +67,8 @@ class FuzzySystem():
         self.GetConsequentMembershipFunctions();
 
         self.GetRules();
+
+        self.GetControlSystem();
 
     # set up
     def GetInputRules(self):
@@ -248,6 +252,17 @@ class FuzzySystem():
                     .append(trapezoidalMembershipFunction);
 
         return self.ConsequentMembershipFunctionsByName;
+
+    def GetControlSystem(self):
+        allRules = self.RulesByRuleBaseName.values();
+
+        # flattening all of the potential rulebase rules. Not sure if this is semantically
+        # correct. I don't see any reason as to why we cannot apply multiple rule bases.
+        flatAllRules = [rule for ruleBaseRules in allRules for rule in ruleBaseRules];
+
+        self.ControlSystem = ctrl.ControlSystem(flatAllRules);
+
+        return self.ControlSystem;
 
     # helper
     def __ReadDataFile(self, fileName):
