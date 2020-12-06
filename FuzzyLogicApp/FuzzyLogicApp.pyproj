@@ -21,7 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="configuration.py">
+    <Compile Include="fuzzy_system.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="logical_connective_enum.py">

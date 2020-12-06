@@ -1,12 +1,12 @@
-from configuration import Configuration;
+from fuzzy_system import FuzzySystem;
 
 def main():
     # this does a lot of the set up work to get input into a usable state
-    configuration = Configuration();
+    fuzzySystem = FuzzySystem();
 
-    configuration.PrintFclInput();
+    fuzzySystem.PrintFclInput();
 
-    configuration.GraphTest();
+    fuzzySystem.GraphTest();
 
     input("Press any key to continue . . .");
     return;

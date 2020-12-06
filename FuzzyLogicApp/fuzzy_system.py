@@ -7,7 +7,7 @@ from rule import Rule;
 from variable_value import VariableValue;
 from variable_measurement import VariableMeasurement;
 
-class Configuration():
+class FuzzySystem():
     # constants
     @property
     def RulesFileName(self):
