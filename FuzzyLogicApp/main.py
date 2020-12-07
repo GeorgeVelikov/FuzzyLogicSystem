@@ -6,16 +6,18 @@ def main():
 
     fuzzySystem.PrintFclInput();
 
-    # still not sure about these
-    fuzzySystem.PrintAntecedentMembershipValues();
-    fuzzySystem.PrintConsequentMembershipValues();
-
     fuzzySystem.PlotAntecedents();
     fuzzySystem.PlotConsequents();
     #fuzzySystem.PlotRules();
 
+    # still not sure about these
+    fuzzySystem.PrintAntecedentMembershipValues();
+
     fuzzySystem.PlotDefuzzifiedCentroidConsequentValues();
 
+    fuzzySystem.PrintConsequentMembershipValues();
+
+    # last call
     fuzzySystem.ShowPlots();
 
     input("Press any key to continue . . .");
