@@ -357,6 +357,15 @@ class FuzzySystem():
 
         return;
 
+    def PlotDefuzzifiedConsequentValues(self):
+        print("\nDefuzzified Consequent Values:");
+        for name, consequent in self.ConsequentsByName.items():
+            consequent.view(sim = self.ControlSystemSimulation);
+
+            consequentValue = self.ControlSystemSimulation.output[name];
+            print("\t" + name + " = " + str(consequentValue));
+        return;
+
     def PlotAntecedents(self):
         # placeholder, just wanting to test whether the membership functions are correct
         for antecedentName, antecedent in self.AntecedentsByName.items():
@@ -374,15 +383,6 @@ class FuzzySystem():
         for ruleBaseName, rules in self.RulesByRuleBaseName.items():
             for rule in rules:
                 rule.view();
-        return;
-
-    def PlotDefuzzifiedConsequentValues(self):
-        print("\nDefuzzified Consequent values:");
-        for name, consequent in self.ConsequentsByName.items():
-            consequent.view(sim = self.ControlSystemSimulation);
-
-            consequentValue = self.ControlSystemSimulation.output[name];
-            print("\t" + name + " = " + str(consequentValue));
         return;
 
     def ShowPlots(self):
