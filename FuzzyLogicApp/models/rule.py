@@ -7,8 +7,8 @@ class Rule:
     def __str__(self):
         value = "Rule: " + self.Name + "\n"
 
-        for condition in self.Terms:
-            value += str(condition) + "\n";
+        for term in self.Terms:
+            value += str(term) + "\n";
             continue;
 
         value += "\t=>" + str(self.Result);
@@ -50,8 +50,8 @@ class Rule:
             .split(" then ")[1]\
             .strip()
 
-        resultCondition = self.GetTerm(resultText);
-        self.Result = resultCondition;
+        resultTerm = self.GetTerm(resultText);
+        self.Result = resultTerm;
 
         # remove parsed data
         ruleText = ruleText\
@@ -61,19 +61,19 @@ class Rule:
         # chained and/or connectives, this is just a hacky way of making sure
         # we split all connectives.
         # this however might break on unknown connectives.
-        chainedConditions = ruleText\
+        chainedTerms = ruleText\
             .replace("and ", "#and# ")\
             .replace("or ", "#or# ")\
             .split("#");
 
         # TODO: get rid of empty entries, couldn't figure out a neater way to do it. Definitely hacky
-        if "" in chainedConditions:
-            chainedConditions.remove("");
+        if "" in chainedTerms:
+            chainedTerms.remove("");
 
         # add subsequent terms
-        for i in range(0, len(chainedConditions), 2):
-            connective = chainedConditions[i];
-            variable = chainedConditions[i+1];
+        for i in range(0, len(chainedTerms), 2):
+            connective = chainedTerms[i];
+            variable = chainedTerms[i+1];
 
             chainedVariableConnectiveText = connective.strip();
 
@@ -83,9 +83,9 @@ class Rule:
                 else LogicalConnectiveEnum._None
 
             if (chainedVariableConnectiveEnum == LogicalConnectiveEnum._None):
-                # something not right, cannot have subsequent conditions with
+                # something not right, cannot have subsequent terms with
                 # None or unknown connectives
-                print("Incorrect Logical Connective used for subsequent condition - ", chainedVariableConnectiveText)
+                print("Incorrect Logical Connective used for subsequent term - ", chainedVariableConnectiveText)
                 continue
 
             chainedTerm = self.GetTerm(variable);
