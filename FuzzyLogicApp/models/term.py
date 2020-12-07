@@ -29,7 +29,7 @@ class Term:
         # if variable name is NOT variableValue
         self.IsNegated = isNegated;
 
-        # this is a bit of a hack, this should be the foundation of a new class - Term
+        # this is a bit of a hack, this should be the foundation of a new class
         # but for the sake of the first-pass brackets support, this will work.
         self.OpeningBracketsCount = openingBracketsCount;
         self.ClosingBracketsCount = closingBracketsCount;
