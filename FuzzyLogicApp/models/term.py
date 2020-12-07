@@ -3,7 +3,8 @@ from enums.logical_connective_enum import LogicalConnectiveEnum;
 class Term:
     def __str__(self):
         # probably better to use enum.name instead of literal strings
-        value = "\t" + str(self.LogicalConnective) + " " +\
+        value = "\t" +\
+            str(self.LogicalConnective) + " " +\
             self.OpeningBrackets + self.VariableName + " is " +\
             ("not " if self.IsNegated else str()) + self.VariableValue + self.ClosingBrackets;
 
