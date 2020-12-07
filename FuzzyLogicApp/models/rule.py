@@ -43,6 +43,10 @@ class Rule:
             .split("is")[0]\
             .strip()
 
+        if "(" in variableName:
+            variableOpeningBrackets = variableName.count("(");
+            variableName = variableName.replace("(", str());
+
         variableValue = ruleText\
             .split("is")[1]\
             .strip()\
@@ -57,9 +61,13 @@ class Rule:
                 .strip()
             variableIsNegated = True;
 
+        if ")" in variableValue:
+            variableClosingBrackets = variableValue.count(")");
+            variableValue = variableValue.replace(")", str());
+
         # remove parsed data
         ruleText = ruleText\
-            .split(variableValue)[1]\
+            .split(variableValue)[1][variableClosingBrackets:]\
             .strip()
 
         # set the result
@@ -75,6 +83,10 @@ class Rule:
             .split(" is ")[0]\
             .strip()
 
+        if "(" in resultVariableName:
+            resultOpeningBrackets = resultVariableName.count("(");
+            resultVariableName = resultVariableName.replace("(", str());
+
         resultVariableValue = positiveRuleResult\
             .split(" is ")[1]\
             .strip()
@@ -84,6 +96,10 @@ class Rule:
                 .split(" is ")[2]\
                 .strip()
             resultVariableIsNegated = True;
+
+        if ")" in resultVariableValue:
+            resultClosingBrackets = resultVariableValue.count(")");
+            resultVariableValue = resultVariableValue.replace(")", str());
 
         # removing parsed data
         ruleText = ruleText\
@@ -147,21 +163,29 @@ class Rule:
             chainedVariableName = variable\
                 .split(" is ")[0]\
                 .split(" ")[1]\
-                .strip()
+                .strip();
+
+            if "(" in chainedVariableName:
+                chainedVariableOpeningBrackets = chainedVariableName.count("(");
+                chainedVariableName = chainedVariableName.replace("(", str());
 
             chainedVariableValue = variable\
                 .split(" is ")[1]\
                 .strip()\
                 .split(" ")[0]\
-                .strip()
+                .strip();
 
             if "not" in chainedVariableValue:
                 chainedVariableValue = variable\
                     .split(" is ")[1]\
                     .strip()\
                     .split(" ")[1]\
-                    .strip()
+                    .strip();
                 chainedVariableIsNegated = True;
+
+            if ")" in chainedVariableValue:
+                chainedVariableClosingBrackets = chainedVariableValue.count(")");
+                chainedVariableValue = chainedVariableValue.replace(")", str());
 
             self.Conditions.append(RuleCondition(\
                 chainedVariableConnectiveEnum,\
@@ -169,7 +193,7 @@ class Rule:
                 chainedVariableOpeningBrackets,\
                 chainedVariableClosingBrackets,\
                 chainedVariableName,\
-                chainedVariableValue))
+                chainedVariableValue));
 
         self.Name = ruleName
         return;
