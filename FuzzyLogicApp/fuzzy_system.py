@@ -53,8 +53,8 @@ class FuzzySystem():
 
         self.RulesByRuleBaseName = dict();
 
-        self.AntecedentDefuzzifiedMethodValuesByAntecedentName = dict();
-        self.ConsequentDefuzzifiedMethodValuesByConsequentName = dict();
+        self.AntecedentDefuzzifiedMethodMembershipFunctionsByAntecedentName = dict();
+        self.ConsequentDefuzzifiedMethodMembershipFunctionsByConsequentName = dict();
 
         self.ControlSystem = None;
         self.ControlSystemSimulation = None;
@@ -74,10 +74,10 @@ class FuzzySystem():
         self.GetAntecedentMembershipFunctions();
         self.GetConsequentMembershipFunctions();
 
-        self.GetRules();
+        self.GetAntecedentDefuzzifiedMembershipFunctions();
+        self.GetConsequentDefuzzifiedMembershipFunctions();
 
-        self.GetAntecedentDefuzzifiedValues();
-        self.GetConsequentDefuzzifiedValues();
+        self.GetRules();
 
         self.GetControlSystem();
         self.GetControlSystemSimulation();
@@ -289,29 +289,29 @@ class FuzzySystem():
 
         return self.ControlSystemSimulation;
 
-    def GetAntecedentDefuzzifiedValues(self):
+    def GetAntecedentDefuzzifiedMembershipFunctions(self):
         for name, membershipFunctions in self.AntecedentMembershipFunctionsByName.items():
             for membershipFunction in membershipFunctions:
-                self.AntecedentDefuzzifiedMethodValuesByAntecedentName[name] = dict();
-                valueRange = self.AntecedentRangesByName[name];
+                self.AntecedentDefuzzifiedMethodMembershipFunctionsByAntecedentName[name] = dict();
+                antecedentRange = self.AntecedentRangesByName[name];
 
                 for method in DefuzzifyingMethodEnum.Values():
-                    self.AntecedentDefuzzifiedMethodValuesByAntecedentName[name][method.Name] = \
-                        fuzz.defuzz(valueRange, membershipFunction, str(method));
+                    self.AntecedentDefuzzifiedMethodMembershipFunctionsByAntecedentName[name][method.Name] = \
+                        fuzz.defuzz(antecedentRange, membershipFunction, str(method));
 
-        return self.AntecedentDefuzzifiedMethodValuesByAntecedentName;
+        return self.AntecedentDefuzzifiedMethodMembershipFunctionsByAntecedentName;
 
-    def GetConsequentDefuzzifiedValues(self):
+    def GetConsequentDefuzzifiedMembershipFunctions(self):
         for name, membershipFunctions in self.ConsequentMembershipFunctionsByName.items():
             for membershipFunction in membershipFunctions:
-                self.ConsequentDefuzzifiedMethodValuesByConsequentName[name] = dict();
-                valueRange = self.ConsequentRangesByName[name];
+                self.ConsequentDefuzzifiedMethodMembershipFunctionsByConsequentName[name] = dict();
+                consequentRange = self.ConsequentRangesByName[name];
 
                 for method in DefuzzifyingMethodEnum.Values():
-                    self.ConsequentDefuzzifiedMethodValuesByConsequentName[name][method.Name] = \
-                        fuzz.defuzz(valueRange, membershipFunction, str(method));
+                    self.ConsequentDefuzzifiedMethodMembershipFunctionsByConsequentName[name][method.Name] = \
+                        fuzz.defuzz(consequentRange, membershipFunction, str(method));
 
-        return self.ConsequentDefuzzifiedMethodValuesByConsequentName;
+        return self.ConsequentDefuzzifiedMethodMembershipFunctionsByConsequentName;
 
     # helper
     def __ReadDataFile(self, fileName):
@@ -337,20 +337,20 @@ class FuzzySystem():
 
         return;
 
-    def PrintDefuzzifiedAntecedents(self):
-        print("\nDefuzzifed Antecedent Values:");
+    def PrintDefuzzifiedAntecedentMembershipFunctions(self):
+        print("\nDefuzzifed Antecedent Membership Functions:");
 
-        for valueName, defuzzifiedValues in self.AntecedentDefuzzifiedMethodValuesByAntecedentName.items():
+        for valueName, defuzzifiedValues in self.AntecedentDefuzzifiedMethodMembershipFunctionsByAntecedentName.items():
             print("\t" + valueName);
             for methodName, value in defuzzifiedValues.items():
                 print("\t\t" + methodName + " - " + str(value));
 
         return;
 
-    def PrintDefuzzifiedConsequents(self):
-        print("\nDefuzzifed Consequent Values:");
+    def PrintDefuzzifiedConsequentMembershipFunctions(self):
+        print("\nDefuzzifed Consequent Membership Functions:");
 
-        for valueName, defuzzifiedValues in self.ConsequentDefuzzifiedMethodValuesByConsequentName.items():
+        for valueName, defuzzifiedValues in self.ConsequentDefuzzifiedMethodMembershipFunctionsByConsequentName.items():
             print("\t" + valueName);
             for methodName, value in defuzzifiedValues.items():
                 print("\t\t" + methodName + " - " + str(value));
@@ -376,8 +376,8 @@ class FuzzySystem():
                 rule.view();
         return;
 
-    def PlotMeasurements(self):
-        print("\nConsequent values:");
+    def PlotDefuzzifiedConsequentValues(self):
+        print("\nDefuzzified Consequent values:");
         for name, consequent in self.ConsequentsByName.items():
             consequent.view(sim = self.ControlSystemSimulation);
 

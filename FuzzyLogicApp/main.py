@@ -6,15 +6,13 @@ def main():
 
     fuzzySystem.PrintFclInput();
 
-    # TODO: these are semantically incorrect, they're looking
-    # at the whole variable and not the individual variable values.
-    fuzzySystem.PrintDefuzzifiedAntecedents();
-    fuzzySystem.PrintDefuzzifiedConsequents();
+    fuzzySystem.PrintDefuzzifiedAntecedentMembershipFunctions();
+    fuzzySystem.PrintDefuzzifiedConsequentMembershipFunctions();
 
     fuzzySystem.PlotAntecedents();
     fuzzySystem.PlotConsequents();
     #fuzzySystem.PlotRules();
-    fuzzySystem.PlotMeasurements();
+    fuzzySystem.PlotDefuzzifiedConsequentValues();
 
     fuzzySystem.ShowPlots();
 
