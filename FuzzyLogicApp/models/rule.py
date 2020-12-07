@@ -5,7 +5,7 @@ from enums.logical_connective_enum import LogicalConnectiveEnum;
 
 class Rule:
     def __str__(self):
-        value = "Rule: " + self.Name + "\n"
+        value = "Rule: " + self.Name + "\n";
 
         for term in self.Terms:
             value += str(term) + "\n";
@@ -35,7 +35,7 @@ class Rule:
 
         self.Name = ruleName
 
-        # remove parsed data
+        # remove parsed data rule name
         ruleLine = ruleLine\
             .split("if ")[1]\
             .strip()
@@ -45,12 +45,12 @@ class Rule:
         self.Terms\
             .append(firstTerm);
 
-        # remove parsed data
+        # remove parsed initial term
         ruleLine = ruleLine\
             .split(firstTerm.VariableValue)[1][firstTerm.ClosingBracketsCount:]\
             .strip()
 
-        # text to get result from
+        # get result text
         resultText = ruleLine\
             .split(" then ")[1]\
             .strip()
@@ -58,7 +58,7 @@ class Rule:
         resultTerm = self.GetTerm(resultText);
         self.Result = resultTerm;
 
-        # remove parsed data
+        # remove result text
         ruleLine = ruleLine\
             .split(" then ")[0]\
             .strip()
@@ -71,26 +71,25 @@ class Rule:
             .replace("or ", "#or# ")\
             .split("#");
 
-        # TODO: get rid of empty entries, couldn't figure out a neater way to do it. Definitely hacky
-        if "" in chainedTerms:
-            chainedTerms.remove("");
+        # safely remove all nones
+        chainedTerms = list(filter(None, chainedTerms))
 
         # add subsequent terms
         for i in range(0, len(chainedTerms), 2):
             connective = chainedTerms[i];
-            variable = chainedTerms[i+1];
+            variable = chainedTerms[i + 1];
 
             chainedVariableConnectiveText = connective.strip();
 
             chainedVariableConnectiveEnum = \
                 LogicalConnectiveEnum.And if chainedVariableConnectiveText == str(LogicalConnectiveEnum.And) \
                 else LogicalConnectiveEnum.Or if chainedVariableConnectiveText == str(LogicalConnectiveEnum.Or) \
-                else LogicalConnectiveEnum._None
+                else LogicalConnectiveEnum._None;
 
             if (chainedVariableConnectiveEnum == LogicalConnectiveEnum._None):
                 # something not right, cannot have subsequent terms with
                 # None or unknown connectives
-                print("Incorrect Logical Connective used for subsequent term - ", chainedVariableConnectiveText)
+                print("Incorrect Logical Connective used for subsequent term - ", chainedVariableConnectiveText);
                 continue
 
             chainedTerm = self.GetTerm(variable);
@@ -118,7 +117,7 @@ class Rule:
             .split("is")[1]\
             .strip()\
             .split(" ")[0]\
-            .strip()
+            .strip();
 
         if "not" in variableValue:
             variableValue =  ruleText\
