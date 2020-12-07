@@ -6,8 +6,9 @@ def main():
 
     fuzzySystem.PrintFclInput();
 
-    fuzzySystem.PrintDefuzzifiedAntecedentMembershipFunctions();
-    fuzzySystem.PrintDefuzzifiedConsequentMembershipFunctions();
+    # still not sure about these
+    #fuzzySystem.PrintDefuzzifiedAntecedentMembershipFunctions();
+    #fuzzySystem.PrintDefuzzifiedConsequentMembershipFunctions();
 
     fuzzySystem.PlotAntecedents();
     fuzzySystem.PlotConsequents();
