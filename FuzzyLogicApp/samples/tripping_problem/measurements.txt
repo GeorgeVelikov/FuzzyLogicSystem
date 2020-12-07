@@ -1,0 +1,2 @@
+journey_time = 9
+driving = 65
