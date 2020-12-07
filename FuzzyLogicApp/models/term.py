@@ -26,7 +26,7 @@ class Term:
 
         self.LogicalConnective = logicalConnective;
 
-        # if variable name is NOT variableValue
+        # if variableName is NOT variableValue
         self.IsNegated = isNegated;
 
         # this is a bit of a hack, this should be the foundation of a new class
@@ -40,7 +40,7 @@ class Term:
 
     @property
     def BooleanOperand(self):
-        # Idk what to call this, it's effectively a +/- for a boolean value, or in this case a fuzzy set
+        # Idk what to call this, BooleanOperands seems to make sense to me 🤷
          return "~" if self.IsNegated else str();
 
     @property
