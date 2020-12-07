@@ -1,4 +1,4 @@
-from logical_connective_enum import LogicalConnectiveEnum;
+from enums.logical_connective_enum import LogicalConnectiveEnum;
 
 class RuleCondition:
     def __str__(self):

@@ -1,7 +1,7 @@
 from decimal import Decimal;
 
-from rule_condition import RuleCondition;
-from logical_connective_enum import LogicalConnectiveEnum;
+from models.rule_condition import RuleCondition;
+from enums.logical_connective_enum import LogicalConnectiveEnum;
 
 class Rule:
     def __str__(self):

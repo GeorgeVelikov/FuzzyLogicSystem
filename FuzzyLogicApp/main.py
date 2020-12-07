@@ -1,5 +1,6 @@
 from fuzzy_system import FuzzySystem;
-from defuzzifying_method_enum import DefuzzifyingMethodEnum;
+
+from enums.defuzzifying_method_enum import DefuzzifyingMethodEnum;
 
 def main():
     # don't select _None

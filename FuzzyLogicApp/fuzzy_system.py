@@ -3,10 +3,11 @@ import skfuzzy as fuzz;
 import skfuzzy.control as ctrl;
 import matplotlib.pyplot as plt
 
-from rule import Rule;
-from variable_value import VariableValue;
-from variable_measurement import VariableMeasurement;
-from defuzzifying_method_enum import DefuzzifyingMethodEnum;
+from models.rule import Rule;
+from models.variable_value import VariableValue;
+from models.variable_measurement import VariableMeasurement;
+
+from enums.defuzzifying_method_enum import DefuzzifyingMethodEnum;
 
 class FuzzySystem():
     # constants
