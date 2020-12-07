@@ -1,13 +1,13 @@
 from decimal import Decimal;
 
-from models.rule_condition import RuleCondition;
+from models.term import Term;
 from enums.logical_connective_enum import LogicalConnectiveEnum;
 
 class Rule:
     def __str__(self):
         value = "Rule: " + self.Name + "\n"
 
-        for condition in self.Conditions:
+        for condition in self.Terms:
             value += str(condition) + "\n";
             continue;
 
@@ -18,8 +18,8 @@ class Rule:
     # a bit too lengthy for a constructor
     def __init__(self, ruleText):
         self.Name = str();
-        self.Conditions = list();
-        self.Result = None; # Condition type
+        self.Terms = list();
+        self.Result = None; # Term type
 
         ruleText = ruleText.lower()
 
@@ -35,14 +35,14 @@ class Rule:
             .split("if ")[1]\
             .strip()
 
-        firstCondition = self.GetCondition(ruleText);
+        firstTerm = self.GetTerm(ruleText);
 
-        self.Conditions\
-            .append(firstCondition);
+        self.Terms\
+            .append(firstTerm);
 
         # remove parsed data
         ruleText = ruleText\
-            .split(firstCondition.VariableValue)[1][firstCondition.ClosingBracketsCount:]\
+            .split(firstTerm.VariableValue)[1][firstTerm.ClosingBracketsCount:]\
             .strip()
 
         # text to get result from
@@ -50,7 +50,7 @@ class Rule:
             .split(" then ")[1]\
             .strip()
 
-        resultCondition = self.GetCondition(resultText);
+        resultCondition = self.GetTerm(resultText);
         self.Result = resultCondition;
 
         # remove parsed data
@@ -70,7 +70,7 @@ class Rule:
         if "" in chainedConditions:
             chainedConditions.remove("");
 
-        # add subsequent conditions
+        # add subsequent terms
         for i in range(0, len(chainedConditions), 2):
             connective = chainedConditions[i];
             variable = chainedConditions[i+1];
@@ -88,13 +88,13 @@ class Rule:
                 print("Incorrect Logical Connective used for subsequent condition - ", chainedVariableConnectiveText)
                 continue
 
-            chainedCondition = self.GetCondition(variable);
-            chainedCondition.LogicalConnective = chainedVariableConnectiveEnum;
+            chainedTerm = self.GetTerm(variable);
+            chainedTerm.LogicalConnective = chainedVariableConnectiveEnum;
 
-            self.Conditions.append(chainedCondition);
+            self.Terms.append(chainedTerm);
         return;
 
-    def GetCondition(self, ruleText):
+    def GetTerm(self, ruleText):
         variableName = str();
         variableValue = str();
         variableIsNegated = False;
@@ -127,7 +127,7 @@ class Rule:
             variableClosingBrackets = variableValue.count(")");
             variableValue = variableValue.replace(")", str());
 
-        return RuleCondition(\
+        return Term(\
             LogicalConnectiveEnum._None,\
             variableIsNegated,\
             variableOpeningBrackets,\

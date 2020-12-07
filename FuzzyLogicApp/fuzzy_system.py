@@ -157,7 +157,7 @@ class FuzzySystem():
             for rule in ruleBaseRules:
                 self.ConsequentNames.add(rule.Result.VariableName);
 
-                for antecedent in rule.Conditions:
+                for antecedent in rule.Terms:
                     self.AntecedentNames.add(antecedent.VariableName);
 
         return self.AntecedentNames, self.ConsequentNames;
@@ -173,9 +173,9 @@ class FuzzySystem():
                 antecedents = str();
                 antecedentsByAntecedentStr = dict();
 
-                for condition in rule.Conditions:
+                for term in rule.Terms:
                     # if variableName is variableValue
-                    antecedent = self.AntecedentsByName[condition.VariableName][condition.VariableValue];
+                    antecedent = self.AntecedentsByName[term.VariableName][term.VariableValue];
 
                     # no other obvious way of dealing with N chained connectives and dynamically creating aggregates
                     # use a buffer dict which holds the antecedent based on their str(antecedent) value
@@ -185,11 +185,11 @@ class FuzzySystem():
                     antecedentsByAntecedentStr[antecedentStr] = antecedent;
 
                     # order is very important, do not change.
-                    antecedents += condition.LogicalConnective.Operand;
-                    antecedents += condition.OpeningBrackets;
-                    antecedents += condition.BooleanOperand;
+                    antecedents += term.LogicalConnective.Operand;
+                    antecedents += term.OpeningBrackets;
+                    antecedents += term.BooleanOperand;
                     antecedents += 'antecedentsByAntecedentStr["' + antecedentStr + '"]';
-                    antecedents += condition.ClosingBrackets;
+                    antecedents += term.ClosingBrackets;
 
                 # then variableName is variableValue
                 result = self.ConsequentsByName[rule.Result.VariableName][rule.Result.VariableValue];

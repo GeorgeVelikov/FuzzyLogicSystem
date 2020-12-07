@@ -1,6 +1,6 @@
 from enums.logical_connective_enum import LogicalConnectiveEnum;
 
-class RuleCondition:
+class Term:
     def __str__(self):
         # probably better to use enum.name instead of literal strings
         value = "\t" + str(self.LogicalConnective) + " " +\
