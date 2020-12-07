@@ -4,8 +4,8 @@ import skfuzzy.control as ctrl;
 import matplotlib.pyplot as plt
 
 from models.rule import Rule;
-from models.variable_value import VariableValue;
-from models.variable_measurement import VariableMeasurement;
+from models.variable import Variable;
+from models.measurement import Measurement;
 
 from enums.defuzzifying_method_enum import DefuzzifyingMethodEnum;
 
@@ -121,7 +121,7 @@ class FuzzySystem():
                 variableName = line;
                 variables[variableName] = [];
             elif variableName and line:
-                variables[variableName].append(VariableValue(line));
+                variables[variableName].append(Variable(line));
             else:
                 print("Error: Unhandled scenario for variables.");
                 continue;
@@ -138,7 +138,7 @@ class FuzzySystem():
             if not line:
                 continue;
             elif "=" in line:
-                measurements.append(VariableMeasurement(line));
+                measurements.append(Measurement(line));
             else:
                 print("Error: Unhandled scenario for measurements.");
 

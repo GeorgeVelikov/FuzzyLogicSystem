@@ -1,4 +1,4 @@
-class VariableValue:
+class Variable:
     def __str__(self):
         return "\t" + self.Name + " defined in " + str(self.Tuple);
 

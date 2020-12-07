@@ -37,10 +37,10 @@
     <Compile Include="models\term.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="models\variable_measurement.py">
+    <Compile Include="models\measurement.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="models\variable_value.py">
+    <Compile Include="models\variable.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
