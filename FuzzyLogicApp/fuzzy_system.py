@@ -182,7 +182,7 @@ class FuzzySystem():
                         term.OpeningBrackets +\
                         term.BooleanOperand +\
                         'antecedentsByAntecedentStr["' + antecedentStr + '"]' +\
-                        term.ClosingBrackets +\
+                        term.ClosingBrackets;
 
                 # then variableName is variableValue
                 result = self.ConsequentsByName[rule.Result.VariableName][rule.Result.VariableValue];
