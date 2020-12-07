@@ -34,6 +34,9 @@
     <Compile Include="rule.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="rule_condition.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="variable_measurement.py">
       <SubType>Code</SubType>
     </Compile>
