@@ -360,7 +360,8 @@ class FuzzySystem():
             print("\t" + name);
 
             consequentValues = self.ConsequentMembershipFunctionsByName[name];
-            output = int(self.ControlSystemSimulation.output[name]);
+            # rounding because our consequent value is never an int
+            output = round(self.ControlSystemSimulation.output[name]);
 
             for variableName, trapezoidalMembershipFunction in consequentValues.items():
                 fuzzyOutputForValue = trapezoidalMembershipFunction[output]
