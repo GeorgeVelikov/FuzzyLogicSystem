@@ -42,6 +42,7 @@ class FuzzySystem():
         self.AntecedentNames = set();
         self.ConsequentNames = set();
 
+        # this will give you only the default method - centroid
         self.AntecedentsByName = dict();
         self.ConsequentsByName = dict();
 
@@ -55,6 +56,9 @@ class FuzzySystem():
 
         self.AntecedentDefuzzifiedMethodMembershipFunctionsByAntecedentName = dict();
         self.ConsequentDefuzzifiedMethodMembershipFunctionsByConsequentName = dict();
+
+        # antecedents don't have defuzzified values
+        self.ConsequentDefuzzifiedValuesByConsequentName = dict();
 
         self.ControlSystem = None;
         self.ControlSystemSimulation = None;
@@ -224,7 +228,20 @@ class FuzzySystem():
             consequentValueRange = np.arange(consequentMinValue, consequentMaxValue, self.Step);
 
             self.ConsequentRangesByName[name] = consequentValueRange;
+
+            # defaults to centroid
             self.ConsequentsByName[name] = ctrl.Consequent(consequentValueRange, name);
+            self.ConsequentDefuzzifiedValuesByConsequentName[name] = dict();
+
+            for method in DefuzzifyingMethodEnum.Values():
+                # a bit hacky, no need to create a duplicate consequent
+                if method == DefuzzifyingMethodEnum.CentroidOfArea:
+                    self.ConsequentDefuzzifiedValuesByConsequentName[name][method.Name] =\
+                        self.ConsequentsByName[name];
+                    continue;
+
+                self.ConsequentDefuzzifiedValuesByConsequentName[name][method.Name] =\
+                    ctrl.Consequent(consequentValueRange, name, str(method));
 
         return self.ConsequentsByName;
 
@@ -357,13 +374,21 @@ class FuzzySystem():
 
         return;
 
-    def PlotDefuzzifiedConsequentValues(self):
-        print("\nDefuzzified Consequent Values:");
+    def PlotDefuzzifiedCentroidConsequentValues(self):
+        print("\nCentroid Defuzzified Consequent Values:");
         for name, consequent in self.ConsequentsByName.items():
             consequent.view(sim = self.ControlSystemSimulation);
-
             consequentValue = self.ControlSystemSimulation.output[name];
             print("\t" + name + " = " + str(consequentValue));
+        return;
+
+    def PrintDefuzzifiedConsequentValues(self):
+        print("\nDefuzzified Consequent Values:");
+        for name, defuzzifiedConsequentsByMethod in self.ConsequentDefuzzifiedValuesByConsequentName.items():
+            print("\t" + name)
+            for methodName, consequent in defuzzifiedConsequentsByMethod.items():
+                consequentValue = self.ControlSystemSimulation.output[name];
+                print("\t\t" + methodName + ": " + str(consequentValue));
         return;
 
     def PlotAntecedents(self):

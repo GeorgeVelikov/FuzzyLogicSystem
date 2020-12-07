@@ -12,7 +12,9 @@ def main():
     fuzzySystem.PlotAntecedents();
     fuzzySystem.PlotConsequents();
     #fuzzySystem.PlotRules();
-    fuzzySystem.PlotDefuzzifiedConsequentValues();
+
+    fuzzySystem.PrintDefuzzifiedConsequentValues();
+    fuzzySystem.PlotDefuzzifiedCentroidConsequentValues();
 
     fuzzySystem.ShowPlots();
 
