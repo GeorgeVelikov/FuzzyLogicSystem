@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 class VariableMeasurement:
 
     def __str__(self):
@@ -5,8 +7,7 @@ class VariableMeasurement:
 
     def __init__(self, variableMeasurementText):
         self.Name = str();
-        # TODO: floats in Python are bad, mmkay
-        self.Value = float();
+        self.Value = Decimal();
 
         measurementName = variableMeasurementText\
             .split("=")[0]\
