@@ -57,9 +57,6 @@ class FuzzySystem():
 
         self.RulesByRuleBaseName = dict();
 
-        self.AntecedentDefuzzifiedMethodMembershipFunctionsByAntecedentName = dict();
-        self.ConsequentDefuzzifiedMethodMembershipFunctionsByConsequentName = dict();
-
         self.ControlSystem = None;
         self.ControlSystemSimulation = None;
 
@@ -77,9 +74,6 @@ class FuzzySystem():
 
         self.GetAntecedentMembershipFunctions();
         self.GetConsequentMembershipFunctions();
-
-        self.GetAntecedentDefuzzifiedMembershipFunctions();
-        self.GetConsequentDefuzzifiedMembershipFunctions();
 
         self.GetRules();
 
@@ -298,30 +292,6 @@ class FuzzySystem():
         self.ControlSystemSimulation.compute();
 
         return self.ControlSystemSimulation;
-
-    def GetAntecedentDefuzzifiedMembershipFunctions(self):
-        for name, membershipFunctions in self.AntecedentMembershipFunctionsByName.items():
-            for variableName, membershipFunction in membershipFunctions.items():
-                self.AntecedentDefuzzifiedMethodMembershipFunctionsByAntecedentName[name] = dict();
-                antecedentRange = self.AntecedentRangesByName[name];
-
-                for method in DefuzzifyingMethodEnum.Values():
-                    self.AntecedentDefuzzifiedMethodMembershipFunctionsByAntecedentName[name][method.Name] = \
-                        fuzz.defuzz(antecedentRange, membershipFunction, str(method));
-
-        return self.AntecedentDefuzzifiedMethodMembershipFunctionsByAntecedentName;
-
-    def GetConsequentDefuzzifiedMembershipFunctions(self):
-        for name, membershipFunctions in self.ConsequentMembershipFunctionsByName.items():
-            for variableName, membershipFunction in membershipFunctions.items():
-                self.ConsequentDefuzzifiedMethodMembershipFunctionsByConsequentName[name] = dict();
-                consequentRange = self.ConsequentRangesByName[name];
-
-                for method in DefuzzifyingMethodEnum.Values():
-                    self.ConsequentDefuzzifiedMethodMembershipFunctionsByConsequentName[name][method.Name] = \
-                        fuzz.defuzz(consequentRange, membershipFunction, str(method));
-
-        return self.ConsequentDefuzzifiedMethodMembershipFunctionsByConsequentName;
 
     # helper
     def __ReadDataFile(self, fileName):
