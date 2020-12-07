@@ -16,37 +16,42 @@ class Rule:
         return value;
 
     # a bit too lengthy for a constructor
-    def __init__(self, ruleText):
+    def __init__(self, ruleLine):
+        self.RawRuleLine = str();
         self.Name = str();
         self.Terms = list();
         self.Result = None; # Term type
 
-        ruleText = ruleText.lower()
+        self.RawRuleLine = ruleLine.lower();
+
+        self.CheckRuleLineIsValid();
+
+        ruleLine = ruleLine.lower()
 
         # get rule name
-        ruleName = ruleText\
+        ruleName = ruleLine\
             .split(":")[0]\
             .strip()
 
         self.Name = ruleName
 
         # remove parsed data
-        ruleText = ruleText\
+        ruleLine = ruleLine\
             .split("if ")[1]\
             .strip()
 
-        firstTerm = self.GetTerm(ruleText);
+        firstTerm = self.GetTerm(ruleLine);
 
         self.Terms\
             .append(firstTerm);
 
         # remove parsed data
-        ruleText = ruleText\
+        ruleLine = ruleLine\
             .split(firstTerm.VariableValue)[1][firstTerm.ClosingBracketsCount:]\
             .strip()
 
         # text to get result from
-        resultText = ruleText\
+        resultText = ruleLine\
             .split(" then ")[1]\
             .strip()
 
@@ -54,14 +59,14 @@ class Rule:
         self.Result = resultTerm;
 
         # remove parsed data
-        ruleText = ruleText\
+        ruleLine = ruleLine\
             .split(" then ")[0]\
             .strip()
 
         # chained and/or connectives, this is just a hacky way of making sure
         # we split all connectives.
         # this however might break on unknown connectives.
-        chainedTerms = ruleText\
+        chainedTerms = ruleLine\
             .replace("and ", "#and# ")\
             .replace("or ", "#or# ")\
             .split("#");
@@ -134,3 +139,9 @@ class Rule:
             variableClosingBrackets,\
             variableName,\
             variableValue);
+
+    def CheckRuleLineIsValid(self):
+        if self.RawRuleLine.count("(") != self.RawRuleLine.count(")"):
+            raise Exception("Invalid number of brackets used. Please make sure all brackets are matched.");
+
+        return;
