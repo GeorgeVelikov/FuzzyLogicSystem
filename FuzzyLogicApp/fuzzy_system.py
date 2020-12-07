@@ -28,10 +28,12 @@ class FuzzySystem():
         return 1;
 
     # constructor
-    def __init__(self):
+    def __init__(self, defuzzifyingMethod):
         print("Configuring fuzzy rule based system. . .");
         # instance variables
         # using this as a hint to what each instance variable is since Python isn't strongly typed
+
+        self.DefuzzifyingMethod = defuzzifyingMethod;
 
         # input values
         self.InputRulesByRuleBaseName = dict();
@@ -226,11 +228,10 @@ class FuzzySystem():
 
             self.ConsequentRangesByName[name] = consequentValueRange;
 
-            # defaults to centroid
             self.ConsequentsByName[name] = ctrl.Consequent(\
                 consequentValueRange,\
                 name,\
-                str(DefuzzifyingMethodEnum.CentroidOfArea));
+                str(self.DefuzzifyingMethod));
 
         return self.ConsequentsByName;
 
@@ -368,8 +369,9 @@ class FuzzySystem():
                 print("\t\t"+ variableName + " = " + str(fuzzyOutputForValue))
         return;
 
-    def PlotDefuzzifiedCentroidConsequentValues(self):
-        print("\nCentroid Defuzzified Consequent Values:");
+    def PlotDefuzzifiedConsequentValues(self):
+        print("\nUsing the " + self.DefuzzifyingMethod.Name + " defuzzifying method.")
+        print("\nDefuzzified Consequent Values:");
         for name, consequent in self.ConsequentsByName.items():
             consequent.view(sim = self.ControlSystemSimulation);
             consequentValue = self.ControlSystemSimulation.output[name];

@@ -1,8 +1,11 @@
 from fuzzy_system import FuzzySystem;
+from defuzzifying_method_enum import DefuzzifyingMethodEnum;
 
 def main():
     # this does a lot of the set up work to get input into a usable state
-    fuzzySystem = FuzzySystem();
+    deffuzifyingMethod = DefuzzifyingMethodEnum.BisectorOfArea;
+
+    fuzzySystem = FuzzySystem(deffuzifyingMethod);
 
     fuzzySystem.PrintFclInput();
 
@@ -13,7 +16,7 @@ def main():
     # still not sure about these
     fuzzySystem.PrintAntecedentMembershipValues();
 
-    fuzzySystem.PlotDefuzzifiedCentroidConsequentValues();
+    fuzzySystem.PlotDefuzzifiedConsequentValues();
 
     fuzzySystem.PrintConsequentMembershipValues();
 
