@@ -238,7 +238,7 @@ class FuzzySystem():
         for name in self.AntecedentNames:
             antecedentValues = self.InputVariableValuesByVariableName[name];
             antecedent = self.AntecedentsByName[name];
-            self.AntecedentMembershipFunctionsByName[name] = list();
+            self.AntecedentMembershipFunctionsByName[name] = dict();
 
             for antecedentValue in antecedentValues:
                 # will always be 4tuple input => always have a trapezoidal mf
@@ -248,9 +248,8 @@ class FuzzySystem():
 
                 # set up each antecedent value name and membership function
                 antecedent[antecedentValue.Name] = trapezoidalMembershipFunction;
-
-                self.AntecedentMembershipFunctionsByName[name]\
-                    .append(trapezoidalMembershipFunction);
+                self.AntecedentMembershipFunctionsByName[name][antecedentValue.Name] =\
+                    trapezoidalMembershipFunction;
 
         return self.AntecedentMembershipFunctionsByName;
 
@@ -258,7 +257,7 @@ class FuzzySystem():
         for name in self.ConsequentNames:
             consequentValues = self.InputVariableValuesByVariableName[name];
             consequent = self.ConsequentsByName[name];
-            self.ConsequentMembershipFunctionsByName[name] = list();
+            self.ConsequentMembershipFunctionsByName[name] = dict();
 
             for consequentValue in consequentValues:
                 # will always be 4tuple input => always have a trapezoidal mf
@@ -267,9 +266,8 @@ class FuzzySystem():
                     consequentValue.TrapezoidalInput);
 
                 consequent[consequentValue.Name] = trapezoidalMembershipFunction;
-
-                self.ConsequentMembershipFunctionsByName[name]\
-                    .append(trapezoidalMembershipFunction);
+                self.ConsequentMembershipFunctionsByName[name][consequentValue.Name] =\
+                   trapezoidalMembershipFunction;
 
         return self.ConsequentMembershipFunctionsByName;
 
@@ -297,7 +295,7 @@ class FuzzySystem():
 
     def GetAntecedentDefuzzifiedMembershipFunctions(self):
         for name, membershipFunctions in self.AntecedentMembershipFunctionsByName.items():
-            for membershipFunction in membershipFunctions:
+            for variableName, membershipFunction in membershipFunctions.items():
                 self.AntecedentDefuzzifiedMethodMembershipFunctionsByAntecedentName[name] = dict();
                 antecedentRange = self.AntecedentRangesByName[name];
 
@@ -309,7 +307,7 @@ class FuzzySystem():
 
     def GetConsequentDefuzzifiedMembershipFunctions(self):
         for name, membershipFunctions in self.ConsequentMembershipFunctionsByName.items():
-            for membershipFunction in membershipFunctions:
+            for variableName, membershipFunction in membershipFunctions.items():
                 self.ConsequentDefuzzifiedMethodMembershipFunctionsByConsequentName[name] = dict();
                 consequentRange = self.ConsequentRangesByName[name];
 
@@ -343,24 +341,30 @@ class FuzzySystem():
 
         return;
 
-    def PrintDefuzzifiedAntecedentMembershipFunctions(self):
-        print("\nDefuzzifed Antecedent Membership Functions:");
+    def PrintAntecedentMembershipValues(self):
+        print("\nAntecedent Membership Values:");
+        for name in self.AntecedentNames:
+            print("\n\t" + name);
 
-        for valueName, defuzzifiedValues in self.AntecedentDefuzzifiedMethodMembershipFunctionsByAntecedentName.items():
-            print("\t" + valueName);
-            for methodName, value in defuzzifiedValues.items():
-                print("\t\t" + methodName + " - " + str(value));
+            antecedentValues = self.AntecedentMembershipFunctionsByName[name];
+            input = next(measurement.Value for measurement in self.InputMeasurements if measurement.Name == name)
 
+            for variableName, trapezoidalMembershipFunction in antecedentValues.items():
+                fuzzyOutputForValue = trapezoidalMembershipFunction[input]
+                print("\t\t"+ variableName + " = " + str(fuzzyOutputForValue))
         return;
 
-    def PrintDefuzzifiedConsequentMembershipFunctions(self):
-        print("\nDefuzzifed Consequent Membership Functions:");
+    def PrintConsequentMembershipValues(self):
+        print("\nConsequent Membership Values:");
+        for name in self.ConsequentNames:
+            print("\t" + name);
 
-        for valueName, defuzzifiedValues in self.ConsequentDefuzzifiedMethodMembershipFunctionsByConsequentName.items():
-            print("\t" + valueName);
-            for methodName, value in defuzzifiedValues.items():
-                print("\t\t" + methodName + " - " + str(value));
+            consequentValues = self.ConsequentMembershipFunctionsByName[name];
+            output = int(self.ControlSystemSimulation.output[name]);
 
+            for variableName, trapezoidalMembershipFunction in consequentValues.items():
+                fuzzyOutputForValue = trapezoidalMembershipFunction[output]
+                print("\t\t"+ variableName + " = " + str(fuzzyOutputForValue))
         return;
 
     def PlotDefuzzifiedCentroidConsequentValues(self):
