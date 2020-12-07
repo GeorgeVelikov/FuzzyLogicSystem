@@ -177,13 +177,14 @@ class FuzzySystem():
                     # if variableName is variableValue
                     antecedent = self.AntecedentsByName[condition.VariableName][condition.VariableValue];
 
-                    # no other obvious way of dealing with N chained connectives
+                    # no other obvious way of dealing with N chained connectives and dynamically creating aggregates
                     # use a buffer dict which holds the antecedent based on their str(antecedent) value
                     # we later eval to get the term aggregate. This is a VERY horrible way of doing this
                     # but I couldn't really spot any other way of dealing with this issue other than reflection
                     antecedentStr = str(antecedent);
                     antecedentsByAntecedentStr[antecedentStr] = antecedent;
 
+                    # order is very important, do not change.
                     antecedents += condition.LogicalConnective.Operand;
                     antecedents += condition.OpeningBrackets;
                     antecedents += condition.BooleanOperand;
