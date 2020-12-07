@@ -162,7 +162,7 @@ class FuzzySystem():
                 # No tokenization, if you have a mish-mash of and/or/anything else, you might get
                 # unexpected results. You really shouldn't even try adding brackets in the input.
                 # I haven't tested what will happen, but I know it won't work as you expect.
-                antecedents = str();
+                antecedentsTermAggregate = str();
                 antecedentsByAntecedentStr = dict();
 
                 for term in rule.Terms:
@@ -177,7 +177,8 @@ class FuzzySystem():
                     antecedentsByAntecedentStr[antecedentStr] = antecedent;
 
                     # order is very important, do not change.
-                    antecedents += term.LogicalConnective.Operand +\
+                    antecedentsTermAggregate += \
+                        term.LogicalConnective.Operand +\
                         term.OpeningBrackets +\
                         term.BooleanOperand +\
                         'antecedentsByAntecedentStr["' + antecedentStr + '"]' +\
@@ -187,7 +188,7 @@ class FuzzySystem():
                 result = self.ConsequentsByName[rule.Result.VariableName][rule.Result.VariableValue];
 
                 # eval on antecedents creates a potentially complex term aggregate
-                fuzzyRule = ctrl.Rule(eval(antecedents), result);
+                fuzzyRule = ctrl.Rule(eval(antecedentsTermAggregate), result);
 
                 self.RulesByRuleBaseName[ruleBaseName]\
                     .append(fuzzyRule);
