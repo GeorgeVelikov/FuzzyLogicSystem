@@ -35,6 +35,8 @@ class Rule:
 
         # first condition
         variableIsNegated = False;
+        variableOpeningBrackets = 0;
+        variableClosingBrackets = 0;
 
         variableName = ruleText\
             .split("if")[1]\
@@ -66,6 +68,8 @@ class Rule:
             .strip()
 
         resultVariableIsNegated = False;
+        resultOpeningBrackets = 0;
+        resultClosingBrackets = 0;
 
         resultVariableName = positiveRuleResult\
             .split(" is ")[0]\
@@ -102,12 +106,16 @@ class Rule:
         firstCondition = RuleCondition(\
             LogicalConnectiveEnum._None,\
             variableIsNegated,\
+            variableOpeningBrackets,\
+            variableClosingBrackets,\
             variableName,\
             variableValue)
 
         self.Result = RuleCondition(\
            LogicalConnectiveEnum._None,\
            resultVariableIsNegated,\
+           resultOpeningBrackets,\
+           resultClosingBrackets,\
            resultVariableName,\
            resultVariableValue)
 
@@ -133,6 +141,8 @@ class Rule:
                 continue
 
             chainedVariableIsNegated = False;
+            chainedVariableOpeningBrackets = 0;
+            chainedVariableClosingBrackets = 0;
 
             chainedVariableName = variable\
                 .split(" is ")[0]\
@@ -154,10 +164,12 @@ class Rule:
                 chainedVariableIsNegated = True;
 
             self.Conditions.append(RuleCondition(\
-               chainedVariableConnectiveEnum,\
-               chainedVariableIsNegated,
-               chainedVariableName,\
-               chainedVariableValue))
+                chainedVariableConnectiveEnum,\
+                chainedVariableIsNegated,\
+                chainedVariableOpeningBrackets,\
+                chainedVariableClosingBrackets,\
+                chainedVariableName,\
+                chainedVariableValue))
 
         self.Name = ruleName
         return;

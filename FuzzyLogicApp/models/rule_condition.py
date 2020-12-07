@@ -8,15 +8,31 @@ class RuleCondition:
 
         return value;
 
-    def __init__(self, logicalConnective, isNegated, variableName, variableValue):
+    def __init__(self,\
+        logicalConnective,\
+        isNegated,\
+        openingBracketsCount,\
+        closingBracketsCount,\
+        variableName,\
+        variableValue):
+
         self.LogicalConnective = LogicalConnectiveEnum._None;
         self.IsNegated = False;
+        self.OpeningBracketsCount = int();
+        self.ClosingBracketsCount = int();
         self.VariableName = str();
-        # this is the variable value name, a bit confusing
         self.VariableValue = str();
 
         self.LogicalConnective = logicalConnective;
-        self.IsNegated = isNegated; #if NOT variable name is variableValue
+
+        #if variable name is NOT variableValue
+        self.IsNegated = isNegated;
+
+        # this is a bit of a hack, this should be the foundation of a new class - Term
+        # but for the sake of the first-pass brackets support, this will work.
+        self.OpeningBracketsCount = openingBracketsCount;
+        self.ClosingBracketsCount = closingBracketsCount;
+
         self.VariableName = variableName;
         self.VariableValue = variableValue;
         return;
