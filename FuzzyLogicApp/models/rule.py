@@ -50,7 +50,7 @@ class Rule:
             .split(" then ")[1]\
             .strip()
 
-        resultCondition = self.GetResult(resultText);
+        resultCondition = self.GetCondition(resultText);
         self.Result = resultCondition;
 
         # remove parsed data
@@ -125,49 +125,6 @@ class Rule:
 
         if ")" in variableValue:
             variableClosingBrackets = variableValue.count(")");
-            variableValue = variableValue.replace(")", str());
-
-        return RuleCondition(\
-            LogicalConnectiveEnum._None,\
-            variableIsNegated,\
-            variableOpeningBrackets,\
-            variableClosingBrackets,\
-            variableName,\
-            variableValue);
-
-    def GetResult(self, resultText):
-        variableName = str();
-        variableValue = str();
-        variableIsNegated = False;
-        variableOpeningBrackets = 0;
-        variableClosingBrackets = 0;
-
-        variableName = resultText\
-            .split("is")[0]\
-            .strip()\
-            .split(" ")[0]\
-            .strip()
-
-        if "(" in variableName:
-            variableOpeningBrackets = variableName.count("(");
-            variableName = variableName.replace("(", str());
-
-        variableValue = resultText\
-            .split("is")[1]\
-            .strip()\
-            .split(" ")[0]\
-            .strip()
-
-        if "not" in variableValue:
-            variableValue = variableValue\
-                .split("is")[1]\
-                .strip()\
-                .split(" ")[1]\
-                .strip()
-            variableIsNegated = True;
-
-        if ")" in variableValue:
-            variableOpeningBrackets = variableValue.count(")");
             variableValue = variableValue.replace(")", str());
 
         return RuleCondition(\
