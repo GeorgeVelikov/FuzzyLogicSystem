@@ -388,7 +388,7 @@ class FuzzySystem():
             print("\t" + name)
             for methodName, consequent in defuzzifiedConsequentsByMethod.items():
                 consequentValue = self.ControlSystemSimulation.output[name];
-                print("\t\t" + methodName + ": " + str(consequentValue));
+                print("\t\t" + methodName + " - " + str(consequentValue));
         return;
 
     def PlotAntecedents(self):
