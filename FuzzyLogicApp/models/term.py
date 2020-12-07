@@ -26,7 +26,7 @@ class Term:
 
         self.LogicalConnective = logicalConnective;
 
-        #if variable name is NOT variableValue
+        # if variable name is NOT variableValue
         self.IsNegated = isNegated;
 
         # this is a bit of a hack, this should be the foundation of a new class - Term

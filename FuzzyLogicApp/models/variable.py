@@ -10,13 +10,11 @@ class Variable:
             .split(" ")[0]\
             .strip();
 
-        # TODO: what format are we getting?
+        # maybe a bit overzealous, but I can see how [A, B, Alpha, Beta] makes sense
         variableTupleValue = variableValueText\
             .split(" ", 1)[-1]\
             .replace("[", "")\
             .replace("]", "")\
-            .replace("<", "")\
-            .replace(">", "")\
             .strip();
 
         if "," not in variableTupleValue:
