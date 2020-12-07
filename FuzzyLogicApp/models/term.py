@@ -4,7 +4,8 @@ class Term:
     def __str__(self):
         # probably better to use enum.name instead of literal strings
         value = "\t" + str(self.LogicalConnective) + " " +\
-           self.VariableName + " is " + ("not " if self.IsNegated else str()) + self.VariableValue;
+            self.OpeningBrackets + self.VariableName + " is " +\
+            ("not " if self.IsNegated else str()) + self.VariableValue + self.ClosingBrackets;
 
         return value;
 
