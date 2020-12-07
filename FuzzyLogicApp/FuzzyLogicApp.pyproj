@@ -43,11 +43,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="data\" />
+    <Folder Include="samples\" />
+    <Folder Include="samples\tripping_problem\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="data\measurements.txt" />
     <Content Include="data\rules.txt" />
     <Content Include="data\variables.txt" />
+    <Content Include="samples\tripping_problem\measurements.txt" />
+    <Content Include="samples\tripping_problem\rules.txt" />
+    <Content Include="samples\tripping_problem\variables.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
