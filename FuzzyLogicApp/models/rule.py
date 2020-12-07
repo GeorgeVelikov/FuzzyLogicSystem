@@ -34,6 +34,8 @@ class Rule:
             .strip()
 
         # first condition
+        variableIsNegated = False;
+
         variableName = ruleText\
             .split("if")[1]\
             .split("is")[0]\
@@ -45,6 +47,14 @@ class Rule:
             .split(" ")[0]\
             .strip()
 
+        if "not" in variableValue:
+            variableValue =  ruleText\
+                .split("is")[1]\
+                .strip()\
+                .split(" ")[1]\
+                .strip()
+            variableIsNegated = True;
+
         # remove parsed data
         ruleText = ruleText\
             .split(variableValue)[1]\
@@ -55,6 +65,8 @@ class Rule:
             .split(" then ")[1]\
             .strip()
 
+        resultVariableIsNegated = False;
+
         resultVariableName = positiveRuleResult\
             .split(" is ")[0]\
             .strip()
@@ -62,6 +74,12 @@ class Rule:
         resultVariableValue = positiveRuleResult\
             .split(" is ")[1]\
             .strip()
+
+        if "not" in resultVariableValue:
+            resultVariableValue = ositiveRuleResult\
+                .split(" is ")[2]\
+                .strip()
+            resultVariableIsNegated = True;
 
         # removing parsed data
         ruleText = ruleText\
@@ -83,11 +101,13 @@ class Rule:
         # actual Initialization
         firstCondition = RuleCondition(\
             LogicalConnectiveEnum._None,\
+            variableIsNegated,\
             variableName,\
             variableValue)
 
         self.Result = RuleCondition(\
            LogicalConnectiveEnum._None,\
+           resultVariableIsNegated,\
            resultVariableName,\
            resultVariableValue)
 
@@ -112,6 +132,8 @@ class Rule:
                 print("Incorrect Logical Connective used for subsequent condition - ", chainedVariableConnectiveText)
                 continue
 
+            chainedVariableIsNegated = False;
+
             chainedVariableName = variable\
                 .split(" is ")[0]\
                 .split(" ")[1]\
@@ -123,8 +145,17 @@ class Rule:
                 .split(" ")[0]\
                 .strip()
 
+            if "not" in chainedVariableValue:
+                chainedVariableValue = variable\
+                    .split(" is ")[1]\
+                    .strip()\
+                    .split(" ")[1]\
+                    .strip()
+                chainedVariableIsNegated = True;
+
             self.Conditions.append(RuleCondition(\
                chainedVariableConnectiveEnum,\
+               chainedVariableIsNegated,
                chainedVariableName,\
                chainedVariableValue))
 

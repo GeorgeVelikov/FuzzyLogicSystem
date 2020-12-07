@@ -185,6 +185,7 @@ class FuzzySystem():
                     antecedentsByAntecedentStr[antecedentStr] = antecedent;
 
                     antecedents += condition.LogicalConnective.Operand;
+                    antecedents += condition.BooleanOperand;
                     antecedents += 'antecedentsByAntecedentStr["' + antecedentStr + '"]';
 
                 # then variableName is variableValue
