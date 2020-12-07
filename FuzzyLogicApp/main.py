@@ -15,11 +15,9 @@ def main():
     fuzzySystem.PlotConsequents();
     #fuzzySystem.PlotRules();
 
-    # still not sure about these
     fuzzySystem.PrintAntecedentMembershipValues();
 
     fuzzySystem.PlotDefuzzifiedConsequentValues();
-
     fuzzySystem.PrintConsequentMembershipValues();
 
     # last call

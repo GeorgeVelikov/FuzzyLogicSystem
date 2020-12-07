@@ -1,6 +1,6 @@
 class Variable:
     def __str__(self):
-        return "\t" + self.Name + " defined in " + str(self.Tuple);
+        return "\t" + self.Name + " defined as " + str(self.Tuple) + " where (A, B, Alpha, Beta)";
 
     def __init__(self, variableValueText):
         self.Name = str();
