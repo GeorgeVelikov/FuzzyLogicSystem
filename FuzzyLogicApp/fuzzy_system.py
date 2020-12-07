@@ -177,11 +177,11 @@ class FuzzySystem():
                     antecedentsByAntecedentStr[antecedentStr] = antecedent;
 
                     # order is very important, do not change.
-                    antecedents += term.LogicalConnective.Operand;
-                    antecedents += term.OpeningBrackets;
-                    antecedents += term.BooleanOperand;
-                    antecedents += 'antecedentsByAntecedentStr["' + antecedentStr + '"]';
-                    antecedents += term.ClosingBrackets;
+                    antecedents += term.LogicalConnective.Operand +\
+                        term.OpeningBrackets +\
+                        term.BooleanOperand +\
+                        'antecedentsByAntecedentStr["' + antecedentStr + '"]' +\
+                        term.ClosingBrackets +\
 
                 # then variableName is variableValue
                 result = self.ConsequentsByName[rule.Result.VariableName][rule.Result.VariableValue];
