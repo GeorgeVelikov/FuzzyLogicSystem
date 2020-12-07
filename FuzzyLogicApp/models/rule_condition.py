@@ -41,3 +41,11 @@ class RuleCondition:
     def BooleanOperand(self):
         # Idk what to call this, it's effectively a +/- for a boolean value, or in this case a fuzzy set
          return "~" if self.IsNegated else str();
+
+    @property
+    def OpeningBrackets(self):
+        return self.OpeningBracketsCount * "(";
+
+    @property
+    def ClosingBrackets(self):
+        return self.ClosingBracketsCount * ")";
