@@ -25,16 +25,15 @@ class FuzzySystem():
 
     @property
     def Step(self):
-        # TODO: step is 1 atm, do we want it to be more accurate?
+        # Keep this as 1
         return 1;
 
     # constructor
     def __init__(self, defuzzifyingMethod):
-        print("Configuring fuzzy rule based system. . .");
-        # instance variables
-        # using this as a hint to what each instance variable is since Python isn't strongly typed
-
         self.DefuzzifyingMethod = defuzzifyingMethod;
+
+        print("Configuring fuzzy rule based system. . .");
+        # using this as a hint to what each instance variable is since Python isn't strongly typed
 
         # input values
         self.InputRulesByRuleBaseName = dict();
@@ -45,7 +44,6 @@ class FuzzySystem():
         self.AntecedentNames = set();
         self.ConsequentNames = set();
 
-        # this will give you only the default method - centroid
         self.AntecedentsByName = dict();
         self.ConsequentsByName = dict();
 
