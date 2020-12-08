@@ -18,7 +18,7 @@ class Term:
         variableValue):
 
         self.LogicalConnective = LogicalConnectiveEnum._None;
-        self.IsNegated = False;
+        self.IsNegated = bool();
         self.OpeningBracketsCount = int();
         self.ClosingBracketsCount = int();
         self.VariableName = str();

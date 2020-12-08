@@ -1,3 +1,5 @@
+from models.term import Term;
+
 class Rule:
     def __str__(self):
         value = "Rule: " + self.Name + "\n";
@@ -13,7 +15,7 @@ class Rule:
     def __init__(self, name, terms, result):
         self.Name = str();
         self.Terms = list();
-        self.Result = None; # Term type
+        self.Result = Term;
 
         self.Name = name;
         self.Terms = terms;
