@@ -36,6 +36,7 @@ class Term:
 
         self.VariableName = variableName;
         self.VariableValue = variableValue;
+
         return;
 
     @property

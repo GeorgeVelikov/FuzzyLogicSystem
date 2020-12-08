@@ -19,3 +19,5 @@ class Rule:
         self.Name = name;
         self.Terms = terms;
         self.Result = result;
+
+        return;
