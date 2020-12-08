@@ -42,9 +42,15 @@ class Variable:
         return self.B + self.Beta;
 
     def RaiseExceptionIfInvalid(self):
+        isValid = True;
+
         if len(list(self.Tuple)) != 4:
             raise Exception("Cannot have variable value tuples with less or more than 4 elements.");
+            isValid = False;
 
         if self.B < self.A:
             raise Exception("B cannot be smaller than A in the tuple " + str(self.Tuple) +\
                 ". Where the the tuple is [A, B, Alpha, Beta].");
+            isValid = False;
+
+        return isValid;

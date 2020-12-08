@@ -16,4 +16,5 @@ class Measurement:
         return;
 
     def RaiseExceptionIfInvalid(self):
-       return;
+        # add necessary data checks here
+        return True;

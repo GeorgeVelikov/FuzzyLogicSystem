@@ -22,3 +22,7 @@ class Rule:
         self.Result = result;
 
         return;
+
+    def RaiseExceptionIfInvalid(self):
+        # add necessary data checks here
+        return True;

@@ -51,3 +51,7 @@ class Term:
     @property
     def ClosingBrackets(self):
         return self.ClosingBracketsCount * ")";
+
+    def RaiseExceptionIfInvalid(self):
+        # add necessary data checks here
+        return True;
