@@ -43,11 +43,12 @@ class FuzzySystem():
         self.ControlSystem = None;
         self.ControlSystemSimulation = None;
 
+        self.__Load();
+
+    def __Load(self):
         # actual setup, not actually used as getters as they set the instance variables within the calls
         # whilst likely not semantically correct to be called a getter, I use this as a form of 'typing'
         # so that the variables can be easily identified type-wise
-
-        # get input values
         self.InputRulesByRuleBaseName = FclParser.GetInputRules();
         self.InputVariableValuesByVariableName = FclParser.GetInputVariables();
         self.InputMeasurements = FclParser.GetInputMeasurements();
@@ -65,7 +66,9 @@ class FuzzySystem():
 
         self.GetControlSystem();
         self.GetControlSystemSimulation();
+        return;
 
+    # various setup calls
     def GetAntecedentNames(self):
         print("Getting unique Antecedents. . .");
         if (not self.InputRulesByRuleBaseName):
