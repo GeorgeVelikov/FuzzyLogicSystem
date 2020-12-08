@@ -43,6 +43,9 @@
     <Compile Include="models\variable.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="fcl_parser.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="data\" />

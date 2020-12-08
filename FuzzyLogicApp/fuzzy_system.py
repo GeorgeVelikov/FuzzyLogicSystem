@@ -3,26 +3,11 @@ import skfuzzy as fuzz;
 import skfuzzy.control as ctrl;
 import matplotlib.pyplot as plt
 
-from models.rule import Rule;
-from models.variable import Variable;
-from models.measurement import Measurement;
+from fcl_parser import FclParser;
 
 from enums.defuzzifying_method_enum import DefuzzifyingMethodEnum;
 
 class FuzzySystem():
-    # constants
-    @property
-    def RulesFileName(self):
-       return "rules.txt";
-
-    @property
-    def MeasurementsFileName(self):
-       return "measurements.txt";
-
-    @property
-    def VariablesFileName(self):
-       return "variables.txt";
-
     @property
     def Step(self):
         # Keep this as 1
@@ -61,11 +46,14 @@ class FuzzySystem():
         # actual setup, not actually used as getters as they set the instance variables within the calls
         # whilst likely not semantically correct to be called a getter, I use this as a form of 'typing'
         # so that the variables can be easily identified type-wise
-        self.GetInputRules();
-        self.GetInputVariables();
-        self.GetInputMeasurements();
 
-        self.GetAntecedentAndConsequentNames();
+        # get input values
+        self.InputRulesByRuleBaseName = FclParser.GetInputRules();
+        self.InputVariableValuesByVariableName = FclParser.GetInputVariables();
+        self.InputMeasurements = FclParser.GetInputMeasurements();
+
+        self.GetAntecedentNames();
+        self.GetConsequentNames();
 
         self.GetAntecedents();
         self.GetConsequents();
@@ -78,83 +66,72 @@ class FuzzySystem():
         self.GetControlSystem();
         self.GetControlSystemSimulation();
 
-    # setup
-    def GetInputRules(self):
-        print("Reading rules. . .");
-        ruleLines = self.__ReadDataFile(self.RulesFileName);
-        rules = dict();
-        ruleBaseName = str();
-
-        for line in ruleLines:
-            if not line:
-                continue;
-            elif ":" not in line:
-                ruleBaseName = line;
-                rules[ruleBaseName] = list();
-            elif ruleBaseName and line:
-                rules[ruleBaseName].append(Rule(line));
-            else:
-                print("Error: Unhandled scenario for rules.");
-                continue;
-
-        self.InputRulesByRuleBaseName = rules;
-        return self.InputRulesByRuleBaseName;
-
-    def GetInputVariables(self):
-        print("Reading variables. . .");
-        variableLines = self.__ReadDataFile(self.VariablesFileName);
-        variables = dict();
-        variableName = str();
-
-        for line in variableLines:
-            if not line:
-                continue;
-            elif not any(map(str.isdigit, line)):
-                variableName = line;
-                variables[variableName] = [];
-            elif variableName and line:
-                variables[variableName].append(Variable(line));
-            else:
-                print("Error: Unhandled scenario for variables.");
-                continue;
-
-        self.InputVariableValuesByVariableName = variables;
-        return self.InputVariableValuesByVariableName;
-
-    def GetInputMeasurements(self):
-        print("Reading measurements. . .");
-        measurementLines = self.__ReadDataFile(self.MeasurementsFileName);
-        measurements = list();
-
-        for line in measurementLines:
-            if not line:
-                continue;
-            elif "=" in line:
-                measurements.append(Measurement(line));
-            else:
-                print("Error: Unhandled scenario for measurements.");
-
-        self.InputMeasurements = measurements;
-        return self.InputMeasurements;
-
-    def GetAntecedentAndConsequentNames(self):
-        print("Getting unique antecedents and consequents. . .");
+    def GetAntecedentNames(self):
+        print("Getting unique Antecedents. . .");
         if (not self.InputRulesByRuleBaseName):
             # no values
             return;
 
-        # get antecedents and consequents names
         for ruleBaseName, ruleBaseRules in self.InputRulesByRuleBaseName.items():
-
             for rule in ruleBaseRules:
                 self.ConsequentNames.add(rule.Result.VariableName);
 
+        return self.ConsequentNames;
+
+    def GetConsequentNames(self):
+        print("Getting unique Consequents. . .");
+        if (not self.InputRulesByRuleBaseName):
+            # no values
+            return;
+
+        # get antecedents names
+        for ruleBaseName, ruleBaseRules in self.InputRulesByRuleBaseName.items():
+            for rule in ruleBaseRules:
                 for antecedent in rule.Terms:
                     self.AntecedentNames.add(antecedent.VariableName);
 
-        return self.AntecedentNames, self.ConsequentNames;
+        return self.AntecedentNames;
+
+    def GetAntecedents(self):
+        print("Creating Antecedents. . .");
+        # set antecedents and their ranges
+        for name in self.AntecedentNames:
+            antecedentValues = self.InputVariableValuesByVariableName[name];
+
+            # TODO: better way of getting min and max?
+            antecedentMinValue = min([a.MinValue for a in antecedentValues]);
+            antecedentMaxValue = max([a.MaxValue for a in antecedentValues]);
+
+            antecedentValueRange = np.arange(antecedentMinValue, antecedentMaxValue, self.Step);
+
+            self.AntecedentRangesByName[name] = antecedentValueRange;
+            self.AntecedentsByName[name] = ctrl.Antecedent(antecedentValueRange, name);
+
+        return self.AntecedentsByName;
+
+    def GetConsequents(self):
+        print("Creating Consequents. . .");
+        # set consequents and their ranges
+        for name in self.ConsequentNames:
+            consequentValues = self.InputVariableValuesByVariableName[name];
+
+            # TODO: better way of getting min and max?
+            consequentMinValue = min([c.MinValue for c in consequentValues]);
+            consequentMaxValue = max([c.MaxValue for c in consequentValues]);
+
+            consequentValueRange = np.arange(consequentMinValue, consequentMaxValue, self.Step);
+
+            self.ConsequentRangesByName[name] = consequentValueRange;
+
+            self.ConsequentsByName[name] = ctrl.Consequent(\
+                consequentValueRange,\
+                name,\
+                str(self.DefuzzifyingMethod));
+
+        return self.ConsequentsByName;
 
     def GetRules(self):
+        print("Creating Fuzzy Rules. . .");
         for ruleBaseName, rules in self.InputRulesByRuleBaseName.items():
             self.RulesByRuleBaseName[ruleBaseName] = list();
 
@@ -195,45 +172,8 @@ class FuzzySystem():
 
         return self.RulesByRuleBaseName;
 
-    def GetAntecedents(self):
-        print("Creating antecedent objects. . .");
-        # set antecedents and their ranges
-        for name in self.AntecedentNames:
-            antecedentValues = self.InputVariableValuesByVariableName[name];
-
-            # TODO: better way of getting min and max?
-            antecedentMinValue = min([a.MinValue for a in antecedentValues]);
-            antecedentMaxValue = max([a.MaxValue for a in antecedentValues]);
-
-            antecedentValueRange = np.arange(antecedentMinValue, antecedentMaxValue, self.Step);
-
-            self.AntecedentRangesByName[name] = antecedentValueRange;
-            self.AntecedentsByName[name] = ctrl.Antecedent(antecedentValueRange, name);
-
-        return self.AntecedentsByName;
-
-    def GetConsequents(self):
-        print("Creating consequent objects. . .");
-        # set consequents and their ranges
-        for name in self.ConsequentNames:
-            consequentValues = self.InputVariableValuesByVariableName[name];
-
-            # TODO: better way of getting min and max?
-            consequentMinValue = min([c.MinValue for c in consequentValues]);
-            consequentMaxValue = max([c.MaxValue for c in consequentValues]);
-
-            consequentValueRange = np.arange(consequentMinValue, consequentMaxValue, self.Step);
-
-            self.ConsequentRangesByName[name] = consequentValueRange;
-
-            self.ConsequentsByName[name] = ctrl.Consequent(\
-                consequentValueRange,\
-                name,\
-                str(self.DefuzzifyingMethod));
-
-        return self.ConsequentsByName;
-
     def GetAntecedentMembershipFunctions(self):
+        print("Creating Antecedent membership functions. . .");
         for name in self.AntecedentNames:
             antecedentValues = self.InputVariableValuesByVariableName[name];
             antecedent = self.AntecedentsByName[name];
@@ -253,6 +193,7 @@ class FuzzySystem():
         return self.AntecedentMembershipFunctionsByName;
 
     def GetConsequentMembershipFunctions(self):
+        print("Creating Consequent membership functions. . .");
         for name in self.ConsequentNames:
             consequentValues = self.InputVariableValuesByVariableName[name];
             consequent = self.ConsequentsByName[name];
@@ -271,6 +212,7 @@ class FuzzySystem():
         return self.ConsequentMembershipFunctionsByName;
 
     def GetControlSystem(self):
+        print("Creating Control System and importing Fuzzy Rules. . .");
         allRules = self.RulesByRuleBaseName.values();
 
         # flattening all of the potential rulebase rules. Not sure if this is semantically
@@ -282,6 +224,7 @@ class FuzzySystem():
         return self.ControlSystem;
 
     def GetControlSystemSimulation(self):
+        print("Plugging in Measurements into Control System. . .");
         self.ControlSystemSimulation = ctrl.ControlSystemSimulation(self.ControlSystem);
 
         for measurement in self.InputMeasurements:
@@ -291,12 +234,6 @@ class FuzzySystem():
         self.ControlSystemSimulation.compute();
 
         return self.ControlSystemSimulation;
-
-    # helper
-    def __ReadDataFile(self, fileName):
-        return open("data/" + fileName)\
-            .read()\
-            .splitlines();
 
     # output
     def PrintFclInput(self):

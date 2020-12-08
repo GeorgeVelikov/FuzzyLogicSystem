@@ -2,27 +2,12 @@ class Variable:
     def __str__(self):
         return "\t" + self.Name + " defined as " + str(self.Tuple) + " where (A, B, Alpha, Beta)";
 
-    def __init__(self, variableValueText):
+    def __init__(self, name, fuzzyTuple):
         self.Name = str();
         self.Tuple = tuple();
 
-        variableName = variableValueText\
-            .split(" ")[0]\
-            .strip();
-
-        # maybe a bit overzealous, but I can see how [A, B, Alpha, Beta] makes sense
-        variableTupleValue = variableValueText\
-            .split(" ", 1)[-1]\
-            .replace("[", "")\
-            .replace("]", "")\
-            .strip();
-
-        if "," not in variableTupleValue:
-            variableTupleValue = variableTupleValue\
-                .replace(" ", ",");
-
-        self.Name = variableName;
-        self.Tuple = eval(variableTupleValue);
+        self.Name = name;
+        self.Tuple = fuzzyTuple;
 
         self.RaiseExceptionIfInvalid();
 
