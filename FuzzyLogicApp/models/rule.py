@@ -8,7 +8,7 @@ class Rule:
             value += str(term) + "\n";
             continue;
 
-        value += "\t=>" + str(self.Result);
+        value += str(self.Result);
 
         return value;
 

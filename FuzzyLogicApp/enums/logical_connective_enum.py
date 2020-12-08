@@ -5,6 +5,7 @@ class LogicalConnectiveEnum(Enum):
     _None = 0;
     And = 1;
     Or = 2;
+    Then = 3;
 
     def __str__(self):
         if self.value == self._None.value:
@@ -13,6 +14,8 @@ class LogicalConnectiveEnum(Enum):
             return "and";
         elif self.value == self.Or.value:
             return "or";
+        elif self.value == self.Then.value:
+            return "then";
         else:
             raise Exception("Invalid Logical Connective used.");
 
@@ -24,7 +27,10 @@ class LogicalConnectiveEnum(Enum):
             return "&";
         elif self.value == self.Or.value:
             return "|";
+        elif self.value == self.Then.value:
+            return "=>";
 
     def Values():
         return [LogicalConnectiveEnum.And,\
-            LogicalConnectiveEnum.Or];
+            LogicalConnectiveEnum.Or,\
+            LogicalConnectiveEnum.Then];

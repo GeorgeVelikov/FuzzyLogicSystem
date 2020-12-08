@@ -124,7 +124,7 @@ class FclParser:
 
         # remove parsed data rule name
         ruleLine = ruleLine\
-            .split("if ")[1]\
+            .split(" if ")[1]\
             .strip();
 
         firstTerm = FclParser.CreateTerm(ruleLine);
@@ -141,23 +141,27 @@ class FclParser:
             .strip()
 
         resultTerm = FclParser.CreateTerm(resultText);
+        resultTerm.LogicalConnective = LogicalConnectiveEnum.Then;
         result = resultTerm;
 
-        # remove result text
-        ruleLine = ruleLine\
-            .split(" then ")[0]\
-            .strip()
+        # remove result text, add a white space to make the replace symmetric
+        # this just makes sure we replace and
+        ruleLine = " " + ruleLine\
+            .split(" then ")[0]
 
         # chained and/or connectives, this is just a hacky way of making sure
         # we split all connectives.
         # this however might break on unknown connectives.
         chainedTerms = ruleLine\
-            .replace("and ", "#and# ")\
-            .replace("or ", "#or# ")\
+            .replace(" and ", "#and# ")\
+            .replace(" or ", " #or# ")\
             .split("#");
 
         # safely remove all nones
         chainedTerms = list(filter(None, chainedTerms))
+
+        if " " in chainedTerms:
+            chainedTerms.remove(" ");
 
         # add subsequent terms
         for i in range(0, len(chainedTerms), 2):
@@ -193,7 +197,7 @@ class FclParser:
         variableClosingBrackets = 0;
 
         variableName = termText\
-            .split("is")[0]\
+            .split(" is ")[0]\
             .strip()
 
         if "(" in variableName:
@@ -201,14 +205,14 @@ class FclParser:
             variableName = variableName.replace("(", str());
 
         variableValue = termText\
-            .split("is")[1]\
+            .split(" is ")[1]\
             .strip()\
             .split(" ")[0]\
             .strip();
 
         if "not" in variableValue:
             variableValue =  termText\
-                .split("is")[1]\
+                .split(" is ")[1]\
                 .strip()\
                 .split(" ")[1]\
                 .strip()
