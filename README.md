@@ -1,4 +1,4 @@
-# Fuzzy Logic System
+# Fuzzy Rule-Based System
  CS4047 Computional Intelligence
  
  The data folder is the the effective input folder.
