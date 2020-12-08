@@ -10,7 +10,6 @@ class Rule:
 
         return value;
 
-    # a bit too lengthy for a constructor
     def __init__(self, name, terms, result):
         self.Name = str();
         self.Terms = list();
