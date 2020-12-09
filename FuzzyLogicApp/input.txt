@@ -1,29 +1,43 @@
-currentRulebase
-
-Rule 1: If temperature is High or current is high then output is reduce
-Rule 2: If temperature is Medium then output is same
-Rule 3: If temperature is Low and current is high then output is same
-Rule 4: If temperature is Low and current is low then output is increase
-
-
-current
-
-low 0 0 0 10
-medium 10 10 10 10
-high 20 20 10 0
-
-temperature
-
-Low 0 100 0 100
-Medium 200 200 150 150
-High 400 450 150 0
-
-output
-
-reduce -50 -50 50 50
-same 0 0 50 50
-increase 50 50 50 50
+FantasyRacePicker
+Rule R1: If (Strength is Low or Strength is None) and (Dexterity is High or Dexterity is Average) then Race is Halfling
+Rule R2: If (Strength is High or Intelligence is High) and (Dexterity is None or Dexterity is Low) then Race is Dwarf
+Rule R3: If Dexterity is High and Strength is Low then Race is Elf
+Rule R4: If Strength is High and Intelligence is None then Race is Orc
+Rule R5: If Strength is Average and Dexterity is Average and (Intelligence is Average or Intelligence is Low) then Race is Human
+Rule R6: If Strength is Low and Dexterity is High then Race is Elf
+Rule R7: If Intelligence is High and Strength is High then Race is Elf
 
 
-current = 17
-temperature = 300
+Strength
+
+None 0 0 0 0
+Low 0 40 0 10
+Average 45 75 15 10
+High 85 100 5 0
+
+Dexterity
+
+None 0 0 0 0
+Low 0 25 0 10
+Average 35 50 10 25
+High 65 100 15 0
+
+Intelligence
+
+None 0 0 0 0
+Low 0 50 0 10
+Average 60 70 10 15
+High 80 100 5 0
+
+Race
+
+Halfling 0 3 0 6
+Human 7 12 4 8
+Dwarf 19 23 5 6
+Elf 32 38 4 6
+Orc 49 53 9 0
+
+
+Strength = 50
+Dexterity = 47
+Intelligence = 65
