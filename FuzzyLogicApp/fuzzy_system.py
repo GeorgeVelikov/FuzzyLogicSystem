@@ -270,8 +270,8 @@ class FuzzySystem():
                 print("\t\t"+ variableName + " = " + str(fuzzyOutputForValue))
         return;
 
-    def PrintConsequentMembershipValues(self):
-        print("\nConsequent Membership Values:");
+    def PrintConsequentMembershipDegrees(self):
+        print("\nConsequent Membership Degrees:");
         for name, consequent in self.ConsequentsByName.items():
             print("\t" + name);
 

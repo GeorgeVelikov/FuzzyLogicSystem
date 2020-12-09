@@ -14,12 +14,12 @@ def main():
 
     fuzzySystem.PlotAntecedents();
     fuzzySystem.PlotConsequents();
-    #fuzzySystem.PlotRules();
+    fuzzySystem.PlotRules();
 
     fuzzySystem.PrintAntecedentMembershipValues();
 
     fuzzySystem.PlotDefuzzifiedConsequentValues();
-    fuzzySystem.PrintConsequentMembershipValues();
+    fuzzySystem.PrintConsequentMembershipDegrees();
 
     # last call
     fuzzySystem.ShowPlots();
