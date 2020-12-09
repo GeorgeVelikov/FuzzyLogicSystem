@@ -142,9 +142,7 @@ class FuzzySystem():
             self.RulesByRuleBaseName[ruleBaseName] = dict();
 
             for rule in rules:
-                # No tokenization, if you have a mish-mash of and/or/anything else, you might get
-                # unexpected results. You really shouldn't even try adding brackets in the input.
-                # I haven't tested what will happen, but I know it won't work as you expect.
+                # No tokenization, if you have a mish-mash of and/or/anything else, you might get unexpected results.
                 antecedentsTermAggregate = str();
                 antecedentsByAntecedentStr = dict();
 
