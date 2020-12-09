@@ -48,16 +48,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="data\" />
+    <Folder Include="input\" />
     <Folder Include="models\" />
     <Folder Include="enums\" />
     <Folder Include="samples\" />
     <Folder Include="samples\tripping_problem\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="data\measurements.txt" />
-    <Content Include="data\rules.txt" />
-    <Content Include="data\variables.txt" />
+    <Content Include="input\measurements.txt" />
+    <Content Include="input\rules.txt" />
+    <Content Include="input\variables.txt" />
     <Content Include="samples\tripping_problem\measurements.txt" />
     <Content Include="samples\tripping_problem\rules.txt" />
     <Content Include="samples\tripping_problem\variables.txt" />

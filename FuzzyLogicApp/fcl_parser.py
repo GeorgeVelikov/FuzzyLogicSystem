@@ -14,7 +14,7 @@ class FclParser:
     # line parsing of each and outputting the resulting abstractions
     def GetInputRules():
         print("Reading rules. . .");
-        ruleLines = FclParser.__ReadDataFile(FclParser.__RulesFileName);
+        ruleLines = FclParser.__ReadInputFile(FclParser.__RulesFileName);
         rules = dict();
         ruleBaseName = str();
 
@@ -35,7 +35,7 @@ class FclParser:
 
     def GetInputVariables():
         print("Reading variables. . .");
-        variableLines = FclParser.__ReadDataFile(FclParser.__VariablesFileName);
+        variableLines = FclParser.__ReadInputFile(FclParser.__VariablesFileName);
         variables = dict();
         variableName = str();
 
@@ -56,7 +56,7 @@ class FclParser:
 
     def GetInputMeasurements():
         print("Reading measurements. . .");
-        measurementLines = FclParser.__ReadDataFile(FclParser.__MeasurementsFileName);
+        measurementLines = FclParser.__ReadInputFile(FclParser.__MeasurementsFileName);
         measurements = list();
 
         for line in measurementLines:
@@ -233,8 +233,8 @@ class FclParser:
         return term;
 
     # helper
-    def __ReadDataFile(fileName):
-        return open("data/" + fileName)\
+    def __ReadInputFile(fileName):
+        return open("input/" + fileName)\
             .read()\
             .splitlines();
 
