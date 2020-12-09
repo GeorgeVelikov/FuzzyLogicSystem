@@ -137,7 +137,7 @@ class FclParser:
 
         # remove parsed initial term
         ruleLine = " " + ruleLine\
-            .split(firstTerm.VariableValue)[1][firstTerm.ClosingBracketsCount:]\
+            .split(firstTerm.VariableValue, 1)[1][firstTerm.ClosingBracketsCount:]\
             .strip();
 
         # get result text
