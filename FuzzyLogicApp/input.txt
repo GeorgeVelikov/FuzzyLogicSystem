@@ -7,16 +7,19 @@ Rule 4: If temperature is Low and current is low then output is increase
 
 
 current
+
 low 0 0 0 10
 medium 10 10 10 10
 high 20 20 10 0
 
 temperature
+
 Low 0 100 0 100
 Medium 200 200 150 150
 High 400 450 150 0
 
 output
+
 reduce -50 -50 50 50
 same 0 0 50 50
 increase 50 50 50 50
