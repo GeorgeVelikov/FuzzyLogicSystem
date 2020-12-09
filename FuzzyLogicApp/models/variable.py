@@ -53,4 +53,14 @@ class Variable:
                 ". Where the the tuple is [A, B, Alpha, Beta].");
             isValid = False;
 
+        if self.A < self.MinValue:
+            raise Exception("A cannot be smaller than (A - Alpha) in the tuple " + str(self.Tuple) +\
+                ". Where the the tuple is [A, B, Alpha, Beta].");
+            isValid = False;
+
+        if self.MaxValue < self.B:
+            raise Exception("B cannot be smaller than (B + Beta) in the tuple " + str(self.Tuple) +\
+                ". Where the the tuple is [A, B, Alpha, Beta].");
+            isValid = False;
+
         return isValid;
