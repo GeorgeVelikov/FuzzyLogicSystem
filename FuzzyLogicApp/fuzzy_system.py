@@ -257,17 +257,21 @@ class FuzzySystem():
 
         return;
 
-    def PrintAntecedentMembershipValues(self):
-        print("\nAntecedent Membership Values:");
-        for name in self.AntecedentNames:
+    def PrintAntecedentMembershipDegrees(self):
+        print("\nAntecedent Membership Degrees:");
+        for name, antecedent in self.AntecedentsByName.items():
             print("\n\t" + name);
 
             antecedentValues = self.AntecedentMembershipFunctionsByName[name];
             input = next(measurement.Value for measurement in self.InputMeasurements if measurement.Name == name)
 
             for variableName, trapezoidalMembershipFunction in antecedentValues.items():
-                fuzzyOutputForValue = trapezoidalMembershipFunction[input]
-                print("\t\t"+ variableName + " = " + str(fuzzyOutputForValue))
+                degreeOfMembership = fuzz.interp_membership(\
+                        antecedent.universe, \
+                        trapezoidalMembershipFunction, \
+                        input);
+
+                print("\t\t"+ variableName + " = " + str(degreeOfMembership))
         return;
 
     def PrintConsequentMembershipDegrees(self):

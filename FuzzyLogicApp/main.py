@@ -16,7 +16,7 @@ def main():
     fuzzySystem.PlotConsequents();
     fuzzySystem.PlotRules();
 
-    fuzzySystem.PrintAntecedentMembershipValues();
+    fuzzySystem.PrintAntecedentMembershipDegrees();
 
     fuzzySystem.PlotDefuzzifiedConsequentValues();
     fuzzySystem.PrintConsequentMembershipDegrees();
