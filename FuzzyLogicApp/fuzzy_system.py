@@ -282,11 +282,15 @@ class FuzzySystem():
 
                 consequentValues = self.ConsequentMembershipFunctionsByName[name];
                 # rounding because our consequent value is never an int
-                output = round(self.ControlSystemSimulation.output[name]);
+                output = self.ControlSystemSimulation.output[name];
 
                 for variableName, trapezoidalMembershipFunction in consequentValues.items():
-                    fuzzyOutputForValue = trapezoidalMembershipFunction[output]
-                    print("\t\t\t" + variableName + " = " + str(fuzzyOutputForValue))
+                    degreeOfMembership = fuzz.interp_membership(\
+                        consequent.universe, \
+                        trapezoidalMembershipFunction, \
+                        output);
+
+                    print("\t\t\t" + variableName + " = " + str(degreeOfMembership))
 
             consequent.defuzzify_method = str(self.DefaultDefuzzifyingMethod);
             self.GetControlSystemSimulation();
