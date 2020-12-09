@@ -137,7 +137,7 @@ class FuzzySystem():
     def GetRules(self):
         print("Creating Fuzzy Rules. . .");
         for ruleBaseName, rules in self.InputRulesByRuleBaseName.items():
-            self.RulesByRuleBaseName[ruleBaseName] = list();
+            self.RulesByRuleBaseName[ruleBaseName] = dict();
 
             for rule in rules:
                 # No tokenization, if you have a mish-mash of and/or/anything else, you might get
@@ -171,8 +171,7 @@ class FuzzySystem():
                 # eval on antecedents creates a potentially complex term aggregate
                 fuzzyRule = ctrl.Rule(eval(antecedentsTermAggregate), result);
 
-                self.RulesByRuleBaseName[ruleBaseName]\
-                    .append(fuzzyRule);
+                self.RulesByRuleBaseName[ruleBaseName][rule.Name] = fuzzyRule;
 
         return self.RulesByRuleBaseName;
 
@@ -217,13 +216,15 @@ class FuzzySystem():
 
     def GetControlSystem(self):
         print("Creating Control System and importing Fuzzy Rules. . .");
-        allRules = self.RulesByRuleBaseName.values();
+        flatRules = list();
 
         # flattening all of the potential rulebase rules. Not sure if this is semantically
         # correct. I don't see any reason as to why we cannot apply multiple rule bases.
-        flatAllRules = [rule for ruleBaseRules in allRules for rule in ruleBaseRules];
+        for ruleBaseName, ruleKvp in self.RulesByRuleBaseName.items():
+            for ruleName, rule in ruleKvp.items():
+                flatRules.append(rule);
 
-        self.ControlSystem = ctrl.ControlSystem(flatAllRules);
+        self.ControlSystem = ctrl.ControlSystem(flatRules);
 
         return self.ControlSystem;
 
@@ -300,6 +301,7 @@ class FuzzySystem():
                 consequent.defuzzify_method = str(method);
                 self.GetControlSystemSimulation();
                 consequent.view(sim = self.ControlSystemSimulation);
+                plt.title(name + " - " + method.Name);
                 consequentValue = self.ControlSystemSimulation.output[name];
 
                 print("\t\t" + method.Name + " - " + str(consequentValue));
@@ -312,19 +314,22 @@ class FuzzySystem():
         # placeholder, just wanting to test whether the membership functions are correct
         for antecedentName, antecedent in self.AntecedentsByName.items():
             antecedent.view();
+            plt.title("Antecedent - " + antecedentName);
         return;
 
     def PlotConsequents(self):
         for consequentName, consequent in self.ConsequentsByName.items():
             consequent.view();
+            plt.title("Consequent - " + consequentName);
         return;
 
     def PlotRules(self):
         # plot the rules - they're really not that helpful as they are not notated
         # it is interesting to see how scikit fuzzy internally graphs them out though
         for ruleBaseName, rules in self.RulesByRuleBaseName.items():
-            for rule in rules:
+            for ruleName, rule in rules.items():
                 rule.view();
+                plt.title("Rule base - " + ruleBaseName + "\nRule - " + ruleName);
         return;
 
     def ShowPlots(self):
