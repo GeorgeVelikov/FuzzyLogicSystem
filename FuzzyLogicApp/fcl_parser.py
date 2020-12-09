@@ -7,63 +7,66 @@ from enums.logical_connective_enum import LogicalConnectiveEnum;
 
 class FclParser:
     # constants
-    __RulesFileName ="rules.txt";
-    __MeasurementsFileName = "measurements.txt";
-    __VariablesFileName = "variables.txt";
+    __InputFileName = "input.txt";
+
+    def __init__(self):
+        self.RuleBaseName = str();
+        self.AllLines = list();
+        self.RuleLines = list();
+        self.VariableLines = list();
+        self.MeasurementLines = list();
+
+        self.__ReadInputFile();
 
     # line parsing of each and outputting the resulting abstractions
-    def GetInputRules():
+    def GetInputRules(self):
         print("Reading rules. . .");
-        ruleLines = FclParser.__ReadInputFile(FclParser.__RulesFileName);
         rules = dict();
-        ruleBaseName = str();
+        rules[self.RuleBaseName] = list();
 
-        for line in ruleLines:
+        for line in self.RuleLines:
             if not line:
                 continue;
-            elif ":" not in line:
-                ruleBaseName = line;
-                rules[ruleBaseName] = list();
-            elif ruleBaseName and line:
-                rule = FclParser.CreateRule(line);
-                rules[ruleBaseName].append(rule);
+            elif self.RuleBaseName and line:
+                rule = self.CreateRule(line);
+                rules[self.RuleBaseName]\
+                    .append(rule);
             else:
                 print("Error: Unhandled scenario for rules.");
                 continue;
 
         return rules;
 
-    def GetInputVariables():
+    def GetInputVariables(self):
         print("Reading variables. . .");
-        variableLines = FclParser.__ReadInputFile(FclParser.__VariablesFileName);
         variables = dict();
         variableName = str();
 
-        for line in variableLines:
+        for line in self.VariableLines:
             if not line:
                 continue;
             elif not any(map(str.isdigit, line)):
                 variableName = line;
                 variables[variableName] = [];
             elif variableName and line:
-                variable = FclParser.CreateVariable(line);
-                variables[variableName].append(variable);
+                variable = self.CreateVariable(line);
+                variables[variableName]\
+                    .append(variable);
             else:
                 print("Error: Unhandled scenario for variables.");
                 continue;
 
         return variables;
 
-    def GetInputMeasurements():
+    def GetInputMeasurements(self):
         print("Reading measurements. . .");
-        measurementLines = FclParser.__ReadInputFile(FclParser.__MeasurementsFileName);
         measurements = list();
 
-        for line in measurementLines:
+        for line in self.MeasurementLines:
             if not line:
                 continue;
             elif "=" in line:
-                measurement = FclParser.CreateMeasurement(line);
+                measurement = self.CreateMeasurement(line);
                 measurements.append(measurement);
             else:
                 print("Error: Unhandled scenario for measurements.");
@@ -71,7 +74,7 @@ class FclParser:
         return measurements;
 
     # abstraction creation
-    def CreateMeasurement(measurementText):
+    def CreateMeasurement(self, measurementText):
         name = measurementText\
             .split("=")[0]\
             .strip();
@@ -86,7 +89,7 @@ class FclParser:
 
         return Measurement(name, evalValue);
 
-    def CreateVariable(variableText):
+    def CreateVariable(self, variableText):
         name = variableText\
             .split(" ")[0]\
             .strip();
@@ -106,14 +109,14 @@ class FclParser:
 
         return Variable(name, evalTuple);
 
-    def CreateRule(ruleText):
+    def CreateRule(self, ruleText):
         name = str();
         terms = list(); # List of Terms
         result = None; # Term type
 
         ruleLine = ruleText.lower()
 
-        FclParser.__CheckRuleLineIsValid(ruleLine);
+        self.__CheckRuleLineIsValid(ruleLine);
 
         # get rule name
         ruleName = ruleLine\
@@ -127,7 +130,7 @@ class FclParser:
             .split(" if ")[1]\
             .strip();
 
-        firstTerm = FclParser.CreateTerm(ruleLine);
+        firstTerm = self.CreateTerm(ruleLine);
         firstTerm.LogicalConnective = LogicalConnectiveEnum.If;
         terms.append(firstTerm);
 
@@ -141,7 +144,7 @@ class FclParser:
             .split(" then ")[1]\
             .strip()
 
-        result = FclParser.CreateTerm(resultText);
+        result = self.CreateTerm(resultText);
         result.LogicalConnective = LogicalConnectiveEnum.Then;
 
         # remove result text, add a white space to make the replace symmetric
@@ -187,7 +190,7 @@ class FclParser:
                 print("Incorrect Logical Connective used for subsequent term - ", chainedVariableConnectiveText);
                 continue
 
-            chainedTerm = FclParser.CreateTerm(termText);
+            chainedTerm = self.CreateTerm(termText);
             chainedTerm.LogicalConnective = logicalConnective;
 
             terms.append(chainedTerm);
@@ -195,7 +198,7 @@ class FclParser:
         rule = Rule(name, terms, result);
         return rule;
 
-    def CreateTerm(termText):
+    def CreateTerm(self, termText):
         variableName = str();
         variableValue = str();
         isNegated = False;
@@ -239,13 +242,42 @@ class FclParser:
         return term;
 
     # helper
-    def __ReadInputFile(fileName):
-        return open("input/" + fileName)\
-            .read()\
-            .splitlines();
+    def __ReadInputFile(self, filename = None):
+        # clean up if re-used
+        self.RuleBaseName = str();
+        self.AllLines = list();
+        self.RuleLines = list();
+        self.VariableLines = list();
+        self.MeasurementLines = list();
+
+        if not filename:
+            filename = self.__InputFileName;
+
+        with open(filename, "r") as inputFile:
+            self.AllLines = [line.strip() for line in inputFile.readlines() if not line.isspace()]
+
+            if not self.AllLines:
+                raise Exception("Invalid input file");
+
+            self.RuleBaseName = self.AllLines[0]\
+                .strip();
+
+            for line in self.AllLines[1:]:
+                if ":" in line:
+                    self.RuleLines\
+                        .append(line);
+                elif "=" in line:
+                    self.MeasurementLines\
+                        .append(line);
+                else:
+                    # Dodgy, but no other way of dealing with the input
+                    self.VariableLines\
+                        .append(line);
+
+        return self.AllLines;
 
     # validation
-    def __CheckRuleLineIsValid(ruleLine):
+    def __CheckRuleLineIsValid(self, ruleLine):
         if ruleLine.count("(") != ruleLine.count(")"):
             raise Exception("Invalid number of brackets used. Please make sure all brackets are matched.");
             return False;

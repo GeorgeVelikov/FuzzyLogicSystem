@@ -17,10 +17,13 @@ class FuzzySystem():
 
     # constructor
     def __init__(self, defuzzifyingMethod):
+        self.Parser = FclParser();
         self.DefaultDefuzzifyingMethod = defuzzifyingMethod;
-        print("\nUsing the " + self.DefaultDefuzzifyingMethod.Name + " defuzzifying method for graphs.")
+
+        print("\nUsing the " + self.DefaultDefuzzifyingMethod.Name + " defuzzifying method for graphs.");
 
         print("Configuring fuzzy rule based system. . .");
+
         # using this as a hint to what each instance variable is since Python isn't strongly typed
 
         # input values
@@ -52,9 +55,9 @@ class FuzzySystem():
         # actual setup, not actually used as getters as they set the instance variables within the calls
         # whilst likely not semantically correct to be called a getter, I use this as a form of 'typing'
         # so that the variables can be easily identified type-wise
-        self.InputRulesByRuleBaseName = FclParser.GetInputRules();
-        self.InputVariableValuesByVariableName = FclParser.GetInputVariables();
-        self.InputMeasurements = FclParser.GetInputMeasurements();
+        self.InputRulesByRuleBaseName = self.Parser.GetInputRules();
+        self.InputVariableValuesByVariableName = self.Parser.GetInputVariables();
+        self.InputMeasurements = self.Parser.GetInputMeasurements();
 
         self.GetAntecedentNames();
         self.GetConsequentNames();

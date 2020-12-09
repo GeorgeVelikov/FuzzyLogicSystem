@@ -48,19 +48,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="input\" />
     <Folder Include="models\" />
     <Folder Include="enums\" />
     <Folder Include="samples\" />
-    <Folder Include="samples\tipping_problem\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="input\measurements.txt" />
-    <Content Include="input\rules.txt" />
-    <Content Include="input\variables.txt" />
-    <Content Include="samples\tipping_problem\measurements.txt" />
-    <Content Include="samples\tipping_problem\rules.txt" />
-    <Content Include="samples\tipping_problem\variables.txt" />
+    <Content Include="input.txt" />
+    <Content Include="samples\the_tipping_problem.txt">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
