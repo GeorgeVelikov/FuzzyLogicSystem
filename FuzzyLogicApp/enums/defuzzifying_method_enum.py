@@ -10,7 +10,7 @@ class DefuzzifyingMethodEnum(Enum):
 
     def __str__(self):
         # those are the names scikit fuzzy uses to refer to the defuzz methods
-        # this is simply a quality of live touches. Figured there's no need to handle _None
+        # this is simply a quality of live touch. Figured there's no need to handle _None
         if self.value == self.CentroidOfArea.value:
             return "centroid";
         elif self.value == self.BisectorOfArea.value:
