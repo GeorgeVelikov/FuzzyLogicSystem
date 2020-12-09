@@ -3,12 +3,15 @@ from enum import Enum
 class LogicalConnectiveEnum(Enum):
     # Can't escape keywords in Python :(
     _None = 0;
-    And = 1;
-    Or = 2;
-    Then = 3;
+    If = 1;
+    And = 2;
+    Or = 3;
+    Then = 4;
 
     def __str__(self):
         if self.value == self._None.value:
+            return str();
+        elif self.value == self.If.value:
             return "if";
         elif self.value == self.And.value:
             return "and";
@@ -23,6 +26,8 @@ class LogicalConnectiveEnum(Enum):
     def Operand(self):
         if self.value == self._None.value:
             return str();
+        if self.value == self.If.value:
+            return str();
         elif self.value == self.And.value:
             return "&";
         elif self.value == self.Or.value:
@@ -31,6 +36,8 @@ class LogicalConnectiveEnum(Enum):
             return "=>";
 
     def Values():
-        return [LogicalConnectiveEnum.And,\
+        return [\
+            LogicalConnectiveEnum.If,\
+            LogicalConnectiveEnum.And,\
             LogicalConnectiveEnum.Or,\
             LogicalConnectiveEnum.Then];

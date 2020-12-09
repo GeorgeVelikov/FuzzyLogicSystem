@@ -128,6 +128,7 @@ class FclParser:
             .strip();
 
         firstTerm = FclParser.CreateTerm(ruleLine);
+        firstTerm.LogicalConnective = LogicalConnectiveEnum.If;
         terms.append(firstTerm);
 
         # remove parsed initial term
@@ -140,9 +141,8 @@ class FclParser:
             .split(" then ")[1]\
             .strip()
 
-        resultTerm = FclParser.CreateTerm(resultText);
-        resultTerm.LogicalConnective = LogicalConnectiveEnum.Then;
-        result = resultTerm;
+        result = FclParser.CreateTerm(resultText);
+        result.LogicalConnective = LogicalConnectiveEnum.Then;
 
         # remove result text, add a white space to make the replace symmetric
         # this just makes sure we replace and
