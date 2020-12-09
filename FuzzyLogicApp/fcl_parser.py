@@ -1,3 +1,5 @@
+import re;
+
 from models.rule import Rule;
 from models.term import Term;
 from models.variable import Variable;
@@ -114,7 +116,7 @@ class FclParser:
         terms = list(); # List of Terms
         result = None; # Term type
 
-        ruleLine = ruleText.lower()
+        ruleLine = ruleText
 
         self.__CheckRuleLineIsValid(ruleLine);
 
@@ -126,8 +128,7 @@ class FclParser:
         name = ruleName;
 
         # remove parsed data rule name
-        ruleLine = ruleLine\
-            .split(" if ")[1]\
+        ruleLine = re.split(" if ", ruleLine, flags=re.IGNORECASE)[1]\
             .strip();
 
         firstTerm = self.CreateTerm(ruleLine);
@@ -137,20 +138,18 @@ class FclParser:
         # remove parsed initial term
         ruleLine = " " + ruleLine\
             .split(firstTerm.VariableValue)[1][firstTerm.ClosingBracketsCount:]\
-            .strip()
+            .strip();
 
         # get result text
-        resultText = ruleLine\
-            .split(" then ")[1]\
-            .strip()
+        resultText = re.split(" then ", ruleLine, flags=re.IGNORECASE)[1]\
+            .strip();
 
         result = self.CreateTerm(resultText);
         result.LogicalConnective = LogicalConnectiveEnum.Then;
 
         # remove result text, add a white space to make the replace symmetric
         # this just makes sure we replace and
-        ruleLine = " " + ruleLine\
-            .split(" then ")[0]\
+        ruleLine = " " + re.split(" then ", ruleLine, flags=re.IGNORECASE)[0]\
             .strip();
 
         if not ruleLine.strip():
@@ -205,23 +204,20 @@ class FclParser:
         openingBracketsCount = 0;
         closingBracketsCount = 0;
 
-        variableName = termText\
-            .split(" is ")[0]\
+        variableName = re.split(" is ", termText, flags=re.IGNORECASE)[0]\
             .strip()
 
         if "(" in variableName:
             openingBracketsCount = variableName.count("(");
             variableName = variableName.replace("(", str());
 
-        variableValue = termText\
-            .split(" is ")[1]\
+        variableValue = re.split(" is ", termText, flags=re.IGNORECASE)[1]\
             .strip()\
             .split(" ")[0]\
             .strip();
 
         if "not" in variableValue:
-            variableValue =  termText\
-                .split(" is ")[1]\
+            variableValue = re.split(" is ", termText, flags=re.IGNORECASE)[1]\
                 .strip()\
                 .split(" ")[1]\
                 .strip()

@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="input.txt" />
+    <Content Include="samples\the_current_problem.txt" />
     <Content Include="samples\the_tipping_problem.txt">
       <SubType>Code</SubType>
     </Content>
