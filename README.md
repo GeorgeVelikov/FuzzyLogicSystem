@@ -1,8 +1,8 @@
 # Fuzzy Rule-Based System
  CS4047 Computional Intelligence
  
- The data folder is the the effective input folder.
+ The system input is through input.txt
  
- The samples folder contains multiple sample input folders each containing a set of rules, variables and measurements.
-
-TODO: add more desc
+ The samples folder contains multiple sample inputs
+ 
+ Hope this helps you out! 🦆
