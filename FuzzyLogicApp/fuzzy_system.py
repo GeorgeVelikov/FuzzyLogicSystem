@@ -294,12 +294,12 @@ class FuzzySystem():
     def PlotDefuzzifiedConsequentValues(self):
         print("\nDefuzzified Consequent Values:");
         for name, consequent in self.ConsequentsByName.items():
-            consequent.view(sim = self.ControlSystemSimulation);
             print("\t" + name);
 
             for method in DefuzzifyingMethodEnum.Values():
                 consequent.defuzzify_method = str(method);
                 self.GetControlSystemSimulation();
+                consequent.view(sim = self.ControlSystemSimulation);
                 consequentValue = self.ControlSystemSimulation.output[name];
 
                 print("\t\t" + method.Name + " - " + str(consequentValue));
