@@ -2,11 +2,15 @@ from models.term import Term;
 
 class Rule:
     def __str__(self):
-        value = "Rule: " + self.Name + "\n";
+        value = "Rule: " + self.Name + "\n"
+
+        activelyOpenParentheses = int();
 
         for term in self.Terms:
-            value += str(term) + "\n";
-            continue;
+            currentTermClosingParentheses = term.ClosingBracketsCount - term.OpeningBracketsCount;
+            activelyOpenParentheses -= currentTermClosingParentheses;
+
+            value += str(term) + "\n" + (activelyOpenParentheses * "\t");
 
         value += str(self.Result);
 
