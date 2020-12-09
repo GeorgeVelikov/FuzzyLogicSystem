@@ -131,7 +131,7 @@ class FclParser:
         terms.append(firstTerm);
 
         # remove parsed initial term
-        ruleLine = ruleLine\
+        ruleLine = " " + ruleLine\
             .split(firstTerm.VariableValue)[1][firstTerm.ClosingBracketsCount:]\
             .strip()
 
@@ -147,7 +147,13 @@ class FclParser:
         # remove result text, add a white space to make the replace symmetric
         # this just makes sure we replace and
         ruleLine = " " + ruleLine\
-            .split(" then ")[0]
+            .split(" then ")[0]\
+            .strip();
+
+        if not ruleLine.strip():
+            # we dont have chained antecedents, break earlier
+            rule = Rule(name, terms, result);
+            return rule;
 
         # chained and/or connectives, this is just a hacky way of making sure
         # we split all connectives.
