@@ -165,24 +165,24 @@ class FclParser:
 
         # add subsequent terms
         for i in range(0, len(chainedTerms), 2):
-            connective = chainedTerms[i];
-            variable = chainedTerms[i + 1];
+            connectiveText = chainedTerms[i]\
+                .strip();
 
-            chainedVariableConnectiveText = connective.strip();
+            termText = chainedTerms[i + 1];
 
-            chainedVariableConnectiveEnum = \
-                LogicalConnectiveEnum.And if chainedVariableConnectiveText == str(LogicalConnectiveEnum.And) \
-                else LogicalConnectiveEnum.Or if chainedVariableConnectiveText == str(LogicalConnectiveEnum.Or) \
+            logicalConnective = \
+                LogicalConnectiveEnum.And if connectiveText == str(LogicalConnectiveEnum.And) \
+                else LogicalConnectiveEnum.Or if connectiveText == str(LogicalConnectiveEnum.Or) \
                 else LogicalConnectiveEnum._None;
 
-            if (chainedVariableConnectiveEnum == LogicalConnectiveEnum._None):
+            if (logicalConnective == LogicalConnectiveEnum._None):
                 # something not right, cannot have subsequent terms with
                 # None or unknown connectives
                 print("Incorrect Logical Connective used for subsequent term - ", chainedVariableConnectiveText);
                 continue
 
-            chainedTerm = FclParser.CreateTerm(variable);
-            chainedTerm.LogicalConnective = chainedVariableConnectiveEnum;
+            chainedTerm = FclParser.CreateTerm(termText);
+            chainedTerm.LogicalConnective = logicalConnective;
 
             terms.append(chainedTerm);
 
@@ -192,16 +192,16 @@ class FclParser:
     def CreateTerm(termText):
         variableName = str();
         variableValue = str();
-        variableIsNegated = False;
-        variableOpeningBrackets = 0;
-        variableClosingBrackets = 0;
+        isNegated = False;
+        openingBracketsCount = 0;
+        closingBracketsCount = 0;
 
         variableName = termText\
             .split(" is ")[0]\
             .strip()
 
         if "(" in variableName:
-            variableOpeningBrackets = variableName.count("(");
+            openingBracketsCount = variableName.count("(");
             variableName = variableName.replace("(", str());
 
         variableValue = termText\
@@ -216,17 +216,17 @@ class FclParser:
                 .strip()\
                 .split(" ")[1]\
                 .strip()
-            variableIsNegated = True;
+            isNegated = True;
 
         if ")" in variableValue:
-            variableClosingBrackets = variableValue.count(")");
+            closingBracketsCount = variableValue.count(")");
             variableValue = variableValue.replace(")", str());
 
         term = Term(\
             LogicalConnectiveEnum._None,\
-            variableIsNegated,\
-            variableOpeningBrackets,\
-            variableClosingBrackets,\
+            isNegated,\
+            openingBracketsCount,\
+            closingBracketsCount,\
             variableName,\
             variableValue);
 

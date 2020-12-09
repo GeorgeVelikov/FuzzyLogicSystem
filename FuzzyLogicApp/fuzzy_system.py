@@ -70,18 +70,6 @@ class FuzzySystem():
 
     # various setup calls
     def GetAntecedentNames(self):
-        print("Getting unique Antecedents. . .");
-        if (not self.InputRulesByRuleBaseName):
-            # no values
-            return;
-
-        for ruleBaseName, ruleBaseRules in self.InputRulesByRuleBaseName.items():
-            for rule in ruleBaseRules:
-                self.ConsequentNames.add(rule.Result.VariableName);
-
-        return self.ConsequentNames;
-
-    def GetConsequentNames(self):
         print("Getting unique Consequents. . .");
         if (not self.InputRulesByRuleBaseName):
             # no values
@@ -94,6 +82,18 @@ class FuzzySystem():
                     self.AntecedentNames.add(antecedent.VariableName);
 
         return self.AntecedentNames;
+
+    def GetConsequentNames(self):
+        print("Getting unique Antecedents. . .");
+        if (not self.InputRulesByRuleBaseName):
+            # no values
+            return;
+
+        for ruleBaseName, ruleBaseRules in self.InputRulesByRuleBaseName.items():
+            for rule in ruleBaseRules:
+                self.ConsequentNames.add(rule.Result.VariableName);
+
+        return self.ConsequentNames;
 
     def GetAntecedents(self):
         print("Creating Antecedents. . .");
