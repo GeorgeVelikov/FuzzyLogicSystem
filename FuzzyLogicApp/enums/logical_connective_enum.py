@@ -9,7 +9,7 @@ class LogicalConnectiveEnum(Enum):
 
     def __str__(self):
         if self.value == self._None.value:
-            return str();
+            return "if";
         elif self.value == self.And.value:
             return "and";
         elif self.value == self.Or.value:
