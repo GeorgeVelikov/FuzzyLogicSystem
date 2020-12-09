@@ -1,4 +1,4 @@
-currentRulebase
+temperatureRulebase
 
 Rule 1: If temperature is High or current is high then output is reduce
 Rule 2: If temperature is Medium then output is same

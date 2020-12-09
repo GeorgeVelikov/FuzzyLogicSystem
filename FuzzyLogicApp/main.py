@@ -14,7 +14,7 @@ def main():
 
     fuzzySystem.PlotAntecedents();
     fuzzySystem.PlotConsequents();
-    fuzzySystem.PlotRules();
+    #fuzzySystem.PlotRules();
 
     fuzzySystem.PrintAntecedentMembershipDegrees();
 
