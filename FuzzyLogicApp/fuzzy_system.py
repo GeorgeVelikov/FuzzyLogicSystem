@@ -15,7 +15,8 @@ class FuzzySystem():
 
     # constructor
     def __init__(self, defuzzifyingMethod):
-        self.DefuzzifyingMethod = defuzzifyingMethod;
+        self.DefaultDefuzzifyingMethod = defuzzifyingMethod;
+        print("\nUsing the " + self.DefaultDefuzzifyingMethod.Name + " defuzzifying method for graphs.")
 
         print("Configuring fuzzy rule based system. . .");
         # using this as a hint to what each instance variable is since Python isn't strongly typed
@@ -129,7 +130,7 @@ class FuzzySystem():
             self.ConsequentsByName[name] = ctrl.Consequent(\
                 consequentValueRange,\
                 name,\
-                str(self.DefuzzifyingMethod));
+                str(self.DefaultDefuzzifyingMethod));
 
         return self.ConsequentsByName;
 
@@ -227,7 +228,6 @@ class FuzzySystem():
         return self.ControlSystem;
 
     def GetControlSystemSimulation(self):
-        print("Plugging in Measurements into Control System. . .");
         self.ControlSystemSimulation = ctrl.ControlSystemSimulation(self.ControlSystem);
 
         for measurement in self.InputMeasurements:
@@ -271,25 +271,41 @@ class FuzzySystem():
 
     def PrintConsequentMembershipValues(self):
         print("\nConsequent Membership Values:");
-        for name in self.ConsequentNames:
+        for name, consequent in self.ConsequentsByName.items():
             print("\t" + name);
 
-            consequentValues = self.ConsequentMembershipFunctionsByName[name];
-            # rounding because our consequent value is never an int
-            output = round(self.ControlSystemSimulation.output[name]);
+            for method in DefuzzifyingMethodEnum.Values():
+                print("\t\t" + method.Name);
+                consequent.defuzzify_method = str(method);
+                self.GetControlSystemSimulation();
 
-            for variableName, trapezoidalMembershipFunction in consequentValues.items():
-                fuzzyOutputForValue = trapezoidalMembershipFunction[output]
-                print("\t\t"+ variableName + " = " + str(fuzzyOutputForValue))
+                consequentValues = self.ConsequentMembershipFunctionsByName[name];
+                # rounding because our consequent value is never an int
+                output = round(self.ControlSystemSimulation.output[name]);
+
+                for variableName, trapezoidalMembershipFunction in consequentValues.items():
+                    fuzzyOutputForValue = trapezoidalMembershipFunction[output]
+                    print("\t\t\t" + variableName + " = " + str(fuzzyOutputForValue))
+
+            consequent.defuzzify_method = str(self.DefaultDefuzzifyingMethod);
+            self.GetControlSystemSimulation();
         return;
 
     def PlotDefuzzifiedConsequentValues(self):
-        print("\nUsing the " + self.DefuzzifyingMethod.Name + " defuzzifying method.")
         print("\nDefuzzified Consequent Values:");
         for name, consequent in self.ConsequentsByName.items():
             consequent.view(sim = self.ControlSystemSimulation);
-            consequentValue = self.ControlSystemSimulation.output[name];
-            print("\t" + name + " = " + str(consequentValue));
+            print("\t" + name);
+
+            for method in DefuzzifyingMethodEnum.Values():
+                consequent.defuzzify_method = str(method);
+                self.GetControlSystemSimulation();
+                consequentValue = self.ControlSystemSimulation.output[name];
+
+                print("\t\t" + method.Name + " - " + str(consequentValue));
+
+            consequent.defuzzify_method = str(self.DefaultDefuzzifyingMethod);
+            self.GetControlSystemSimulation();
         return;
 
     def PlotAntecedents(self):
