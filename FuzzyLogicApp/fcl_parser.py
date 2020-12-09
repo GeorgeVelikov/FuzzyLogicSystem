@@ -166,11 +166,11 @@ class FclParser:
             .replace(" or ", " #or# ")\
             .split("#");
 
-        # safely remove all nones
-        chainedTerms = list(filter(None, chainedTerms))
+        # safely remove all nones and white space
+        whiteSpaceInTerms = [term for term in chainedTerms if (term.isspace() or not term)];
 
-        if " " in chainedTerms:
-            chainedTerms.remove(" ");
+        for whiteSpace in whiteSpaceInTerms:
+            chainedTerms.remove(whiteSpace);
 
         # add subsequent terms
         for i in range(0, len(chainedTerms), 2):
