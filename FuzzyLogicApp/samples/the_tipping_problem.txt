@@ -4,6 +4,10 @@
 # 🦆 University Of Aberdeen 🦆
 # 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆
 
+# Don't mind the comments, they do not actually influence the parsing
+# in any way, they are here only for the sake of readability and are ignored
+# by the parser alongside any empty lines!
+
 # rule base
 tippingRulebase
 Rule 1: If driving is good and journey_time is short then tip is big
