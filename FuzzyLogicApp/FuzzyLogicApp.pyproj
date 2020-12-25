@@ -55,9 +55,7 @@
   <ItemGroup>
     <Content Include="input.txt" />
     <Content Include="samples\the_temperature_problem.txt" />
-    <Content Include="samples\the_tipping_problem.txt">
-      <SubType>Code</SubType>
-    </Content>
+    <Content Include="samples\the_tipping_problem.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

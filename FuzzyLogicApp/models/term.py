@@ -10,23 +10,23 @@ class Term:
     def __str__(self):
         value = "\t" +\
             str(self.LogicalConnective) + " " +\
-            self.OpeningBrackets + self.VariableName + " is " +\
-            ("not " if self.IsNegated else str()) + self.VariableValue + self.ClosingBrackets;
+            self.OpeningParentheses + self.VariableName + " is " +\
+            ("not " if self.IsNegated else str()) + self.VariableValue + self.ClosingParentheses;
 
         return value;
 
     def __init__(self,\
         logicalConnective,\
         isNegated,\
-        openingBracketsCount,\
-        closingBracketsCount,\
+        openingParenthesesCount,\
+        closingParenthesesCount,\
         variableName,\
         variableValue):
 
         self.LogicalConnective = LogicalConnectiveEnum._None;
         self.IsNegated = bool();
-        self.OpeningBracketsCount = int();
-        self.ClosingBracketsCount = int();
+        self.OpeningParenthesesCount = int();
+        self.ClosingParenthesesCount = int();
         self.VariableName = str();
         self.VariableValue = str();
 
@@ -36,9 +36,9 @@ class Term:
         self.IsNegated = isNegated;
 
         # this is a bit of a hack, this should be the foundation of a new class
-        # but for the sake of the first-pass brackets support, this will work.
-        self.OpeningBracketsCount = openingBracketsCount;
-        self.ClosingBracketsCount = closingBracketsCount;
+        # but for the sake of the first-pass parentheses support, this will work.
+        self.OpeningParenthesesCount = openingParenthesesCount;
+        self.ClosingParenthesesCount = closingParenthesesCount;
 
         self.VariableName = variableName;
         self.VariableValue = variableValue;
@@ -51,12 +51,12 @@ class Term:
          return "~" if self.IsNegated else str();
 
     @property
-    def OpeningBrackets(self):
-        return self.OpeningBracketsCount * "(";
+    def OpeningParentheses(self):
+        return self.OpeningParenthesesCount * "(";
 
     @property
-    def ClosingBrackets(self):
-        return self.ClosingBracketsCount * ")";
+    def ClosingParentheses(self):
+        return self.ClosingParenthesesCount * ")";
 
     def RaiseExceptionIfInvalid(self):
         # add necessary data checks here

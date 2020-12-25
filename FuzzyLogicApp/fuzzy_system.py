@@ -169,10 +169,10 @@ class FuzzySystem():
                     # order is very important, do not change.
                     antecedentsTermAggregate += \
                         term.LogicalConnective.Operand +\
-                        term.OpeningBrackets +\
+                        term.OpeningParentheses +\
                         term.BooleanOperand +\
                         'antecedentsByAntecedentStr["' + antecedentStr + '"]' +\
-                        term.ClosingBrackets;
+                        term.ClosingParentheses;
 
                 # then variableName is variableValue
                 result = self.ConsequentsByName[rule.Result.VariableName][rule.Result.VariableValue];

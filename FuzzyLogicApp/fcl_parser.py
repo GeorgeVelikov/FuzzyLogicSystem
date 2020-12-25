@@ -143,7 +143,7 @@ class FclParser:
 
         # remove parsed initial term
         ruleLine = " " + ruleLine\
-            .split(firstTerm.VariableValue, 1)[1][firstTerm.ClosingBracketsCount:]\
+            .split(firstTerm.VariableValue, 1)[1][firstTerm.ClosingParenthesesCount:]\
             .strip();
 
         # get result text
@@ -207,14 +207,17 @@ class FclParser:
         variableName = str();
         variableValue = str();
         isNegated = False;
-        openingBracketsCount = 0;
-        closingBracketsCount = 0;
+
+        # This is a horrible hack, the fuzzy rule-based system here, doesn't really
+        # care about the parentheses
+        openingParenthesesCount = 0;
+        closingParenthesesCount = 0;
 
         variableName = re.split(" is ", termText, flags=re.IGNORECASE)[0]\
             .strip()
 
         if "(" in variableName:
-            openingBracketsCount = variableName.count("(");
+            openingParenthesesCount = variableName.count("(");
             variableName = variableName.replace("(", str());
 
         variableValue = re.split(" is ", termText, flags=re.IGNORECASE)[1]\
@@ -230,14 +233,14 @@ class FclParser:
             isNegated = True;
 
         if ")" in variableValue:
-            closingBracketsCount = variableValue.count(")");
+            closingParenthesesCount = variableValue.count(")");
             variableValue = variableValue.replace(")", str());
 
         term = Term(\
             LogicalConnectiveEnum._None,\
             isNegated,\
-            openingBracketsCount,\
-            closingBracketsCount,\
+            openingParenthesesCount,\
+            closingParenthesesCount,\
             variableName,\
             variableValue);
 
@@ -284,7 +287,7 @@ class FclParser:
     # validation
     def __CheckRuleLineIsValid(self, ruleLine):
         if ruleLine.count("(") != ruleLine.count(")"):
-            raise Exception("Invalid number of brackets used. Please make sure all brackets are matched.");
+            raise Exception("Invalid number of parentheses used. Please make sure all parentheses are matched.");
             return False;
 
         return True;

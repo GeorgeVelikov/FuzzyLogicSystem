@@ -13,7 +13,7 @@ class Rule:
         activelyOpenParentheses = int();
 
         for term in self.Terms:
-            currentTermClosingParentheses = term.ClosingBracketsCount - term.OpeningBracketsCount;
+            currentTermClosingParentheses = term.ClosingParenthesesCount - term.OpeningParenthesesCount;
             activelyOpenParentheses -= currentTermClosingParentheses;
 
             value += str(term) + "\n" + (activelyOpenParentheses * "\t");
