@@ -117,7 +117,8 @@ class FuzzySystem():
             antecedentMinValue = min([a.MinValue for a in antecedentValues]);
             antecedentMaxValue = max([a.MaxValue for a in antecedentValues]);
 
-            antecedentValueRange = np.arange(antecedentMinValue, antecedentMaxValue, self.Step);
+            # off by one errors are one of the 3 hardest problems in computing science
+            antecedentValueRange = np.arange(antecedentMinValue, antecedentMaxValue + 1, self.Step);
 
             self.AntecedentRangesByName[name] = antecedentValueRange;
             self.AntecedentsByName[name] = ctrl.Antecedent(antecedentValueRange, name);
@@ -134,6 +135,7 @@ class FuzzySystem():
             consequentMinValue = min([c.MinValue for c in consequentValues]);
             consequentMaxValue = max([c.MaxValue for c in consequentValues]);
 
+            # off by one errors are one of the 3 hardest problems in computing science
             consequentValueRange = np.arange(consequentMinValue, consequentMaxValue, self.Step);
 
             self.ConsequentRangesByName[name] = consequentValueRange;
