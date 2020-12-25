@@ -206,7 +206,7 @@ class FclParser:
     def CreateTerm(self, termText):
         variableName = str();
         variableValue = str();
-        isNegated = False;
+        isNegated = bool();
 
         # This is a horrible hack, the fuzzy rule-based system here, doesn't really
         # care about the parentheses
