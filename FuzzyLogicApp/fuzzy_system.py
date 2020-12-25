@@ -136,7 +136,7 @@ class FuzzySystem():
             consequentMaxValue = max([c.MaxValue for c in consequentValues]);
 
             # off by one errors are one of the 3 hardest problems in computing science
-            consequentValueRange = np.arange(consequentMinValue, consequentMaxValue, self.Step);
+            consequentValueRange = np.arange(consequentMinValue, consequentMaxValue + 1, self.Step);
 
             self.ConsequentRangesByName[name] = consequentValueRange;
 
