@@ -1,8 +1,8 @@
-﻿# 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆
-# 🦆     Georgi Velikov     🦆
-# 🦆        51660024        🦆
-# 🦆 University Of Aberdeen 🦆
-# 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆
+#
+#     Georgi Velikov
+#        51660024
+#  University Of Aberdeen
+#
 
 # rule base
 temperatureRulebase

@@ -256,7 +256,7 @@ class FclParser:
             filename = self.__InputFileName;
 
         with open(filename, "r") as inputFile:
-            self.AllLines = [line.strip() \
+            self.AllLines = [line.split("#")[0].strip() \
                 for line in inputFile.readlines() \
                 if not (line.isspace() or line.startswith("#"))];
 
