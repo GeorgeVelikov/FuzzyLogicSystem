@@ -256,7 +256,9 @@ class FclParser:
             filename = self.__InputFileName;
 
         with open(filename, "r") as inputFile:
-            self.AllLines = [line.strip() for line in inputFile.readlines() if not line.isspace()]
+            self.AllLines = [line.strip() \
+                for line in inputFile.readlines() \
+                if not (line.isspace() or line.startswith("#"))];
 
             if not self.AllLines:
                 raise Exception("Invalid input file");

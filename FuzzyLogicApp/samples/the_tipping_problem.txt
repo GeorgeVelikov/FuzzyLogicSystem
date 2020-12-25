@@ -1,9 +1,17 @@
+﻿# 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆
+# 🦆     Georgi Velikov     🦆
+# 🦆        51660024        🦆
+# 🦆 University Of Aberdeen 🦆
+# 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆
+
+# rule base
 tippingRulebase
 Rule 1: If driving is good and journey_time is short then tip is big
 Rule 2: If driving is good or journey_time is short then tip is moderate
 Rule 3: If driving is average or journey_time is medium then tip is moderate
 Rule 4: If driving is bad and journey_time is long then tip is small
 
+# antecedent
 driving
 bad 0 30 0 20
 average 50 50 20 20
@@ -14,10 +22,12 @@ short 0 0 0 10
 medium 10 10 5 5
 long 20 20 10 0
 
+# consequent
 tip
 small 50 50 50 50
 moderate 100 100 50 50
 big 150 150 50 50
 
+# inputs
 journey_time = 9
 driving = 65
