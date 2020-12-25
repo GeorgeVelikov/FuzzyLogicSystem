@@ -1,3 +1,9 @@
+# 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆
+# 🦆     Georgi Velikov     🦆
+# 🦆        51660024        🦆
+# 🦆 University Of Aberdeen 🦆
+# 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆
+
 from enum import Enum
 
 class LogicalConnectiveEnum(Enum):

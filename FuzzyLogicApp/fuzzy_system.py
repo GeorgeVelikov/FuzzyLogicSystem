@@ -1,3 +1,9 @@
+# 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆
+# 🦆     Georgi Velikov     🦆
+# 🦆        51660024        🦆
+# 🦆 University Of Aberdeen 🦆
+# 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆
+
 import numpy as np;
 import skfuzzy as fuzz;
 import skfuzzy.control as ctrl;

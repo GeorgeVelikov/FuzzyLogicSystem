@@ -1,3 +1,9 @@
+# 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆
+# 🦆     Georgi Velikov     🦆
+# 🦆        51660024        🦆
+# 🦆 University Of Aberdeen 🦆
+# 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆
+
 import re;
 
 from models.rule import Rule;

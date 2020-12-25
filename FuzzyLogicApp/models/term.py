@@ -1,3 +1,9 @@
+# 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆
+# 🦆     Georgi Velikov     🦆
+# 🦆        51660024        🦆
+# 🦆 University Of Aberdeen 🦆
+# 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆
+
 from enums.logical_connective_enum import LogicalConnectiveEnum;
 
 class Term:
