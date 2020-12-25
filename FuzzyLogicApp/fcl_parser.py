@@ -256,6 +256,7 @@ class FclParser:
             filename = self.__InputFileName;
 
         with open(filename, "r") as inputFile:
+            # remove all comments and white space lines from the input file
             self.AllLines = [line.split("#")[0].strip() \
                 for line in inputFile.readlines() \
                 if not (line.isspace() or line.startswith("#"))];
