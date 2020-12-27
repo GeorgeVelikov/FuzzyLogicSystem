@@ -24,8 +24,8 @@ def main():
 
     fuzzySystem.PrintAntecedentMembershipDegrees();
 
-    fuzzySystem.PlotDefuzzifiedConsequentValues();
     fuzzySystem.PrintConsequentMembershipDegrees();
+    fuzzySystem.PlotDefuzzifiedConsequentValues();
 
     # last call
     fuzzySystem.ShowPlots();

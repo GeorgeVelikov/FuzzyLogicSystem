@@ -287,28 +287,12 @@ class FuzzySystem():
 
     def PrintConsequentMembershipDegrees(self):
         print("\nConsequent Membership Degrees:");
+        self.GetControlSystemSimulation();
         for name, consequent in self.ConsequentsByName.items():
             print("\t" + name);
 
-            for method in DefuzzifyingMethodEnum.Values():
-                print("\t\t" + method.Name);
-                consequent.defuzzify_method = str(method);
-                self.GetControlSystemSimulation();
-
-                consequentValues = self.ConsequentMembershipFunctionsByName[name];
-                # rounding because our consequent value is never an int
-                output = self.ControlSystemSimulation.output[name];
-
-                for variableName, trapezoidalMembershipFunction in consequentValues.items():
-                    degreeOfMembership = fuzz.interp_membership(\
-                        consequent.universe, \
-                        trapezoidalMembershipFunction, \
-                        output);
-
-                    print("\t\t\t" + variableName + " = " + str(degreeOfMembership))
-
-            consequent.defuzzify_method = str(self.DefaultDefuzzifyingMethod);
-            self.GetControlSystemSimulation();
+            for valueName, term in consequent.terms.items():
+                print("\t\t" + valueName + " = " + str(term._cut))
         return;
 
     def PlotDefuzzifiedConsequentValues(self):
