@@ -15,9 +15,6 @@ from enums.defuzzifying_method_enum import DefuzzifyingMethodEnum;
 
 class FuzzySystem():
     def Step(self, deltaMaxMin):
-        # This can be whatever step you want. I found 1 to work just fine
-        # for this assignment. I guess it depends on how accurate we want to be
-        # the lower the number => more accuracy
         if (deltaMaxMin >= 100):
             return 1;
         else:
