@@ -116,7 +116,7 @@ class FuzzySystem():
             antecedentMinValue = min([a.MinValue for a in antecedentValues]);
             antecedentMaxValue = max([a.MaxValue for a in antecedentValues]);
 
-            delta = abs(antecedentMaxValue) - abs(antecedentMinValue);
+            delta = antecedentMaxValue - antecedentMinValue;
 
             # off by one errors are one of the 3 hardest problems in computing science
             antecedentValueRange = np.arange(\
@@ -139,7 +139,7 @@ class FuzzySystem():
             consequentMinValue = min([c.MinValue for c in consequentValues]);
             consequentMaxValue = max([c.MaxValue for c in consequentValues]);
 
-            delta = abs(consequentMaxValue) - abs(consequentMinValue);
+            delta = consequentMaxValue - consequentMinValue;
 
             # off by one errors are one of the 3 hardest problems in computing science
             consequentValueRange = np.arange(\
