@@ -14,12 +14,14 @@ from fcl_parser import FclParser;
 from enums.defuzzifying_method_enum import DefuzzifyingMethodEnum;
 
 class FuzzySystem():
-    @property
-    def Step(self):
+    def Step(self, deltaMaxMin):
         # This can be whatever step you want. I found 1 to work just fine
         # for this assignment. I guess it depends on how accurate we want to be
         # the lower the number => more accuracy
-        return 1;
+        if (deltaMaxMin >= 100):
+            return 1;
+        else:
+            return deltaMaxMin / 1000.0;
 
     # constructor
     def __init__(self, defuzzifyingMethod):
@@ -117,8 +119,13 @@ class FuzzySystem():
             antecedentMinValue = min([a.MinValue for a in antecedentValues]);
             antecedentMaxValue = max([a.MaxValue for a in antecedentValues]);
 
+            delta = abs(antecedentMaxValue) - abs(antecedentMinValue);
+
             # off by one errors are one of the 3 hardest problems in computing science
-            antecedentValueRange = np.arange(antecedentMinValue, antecedentMaxValue + 1, self.Step);
+            antecedentValueRange = np.arange(\
+                antecedentMinValue, \
+                antecedentMaxValue + self.Step(delta), \
+                self.Step(delta));
 
             self.AntecedentRangesByName[name] = antecedentValueRange;
             self.AntecedentsByName[name] = ctrl.Antecedent(antecedentValueRange, name);
@@ -135,8 +142,13 @@ class FuzzySystem():
             consequentMinValue = min([c.MinValue for c in consequentValues]);
             consequentMaxValue = max([c.MaxValue for c in consequentValues]);
 
+            delta = abs(consequentMaxValue) - abs(consequentMinValue);
+
             # off by one errors are one of the 3 hardest problems in computing science
-            consequentValueRange = np.arange(consequentMinValue, consequentMaxValue + 1, self.Step);
+            consequentValueRange = np.arange(\
+                consequentMinValue, \
+                consequentMaxValue + self.Step(delta), \
+                self.Step(delta));
 
             self.ConsequentRangesByName[name] = consequentValueRange;
 
