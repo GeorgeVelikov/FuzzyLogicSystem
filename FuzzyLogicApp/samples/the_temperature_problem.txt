@@ -7,30 +7,23 @@
 # rule base
 temperatureRulebase
 
-Rule 1: If temperature is High or current is high then output is reduce
-Rule 2: If temperature is Medium then output is same
-Rule 3: If temperature is Low and current is high then output is same
-Rule 4: If temperature is Low and current is low then output is increase
+Rule 1: If temperature is High or current is High then current is Low
+Rule 2: If temperature is Medium then current is Medium
+Rule 3: If temperature is Low and current is High then current is Medium
+Rule 4: If temperature is Low and current is Low then current is High
 
 # antecedents
-current
+current # this also happens to be a consequent
 
-low 0 0 0 10
-medium 10 10 10 10
-high 20 20 10 0
+Low 0 0 0 10
+Medium 10 10 10 10
+High 20 20 10 0
 
 temperature
 
 Low 0 100 0 100
 Medium 200 200 150 150
 High 400 450 150 0
-
-# consequent
-output
-
-reduce -50 -50 50 50
-same 0 0 50 50
-increase 50 50 50 50
 
 # input
 current = 17
