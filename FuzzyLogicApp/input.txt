@@ -24,7 +24,6 @@ Rule 3.1: If attitude is positive and driving is not bad and journey_time is not
 Rule 3.2: If attitude is not negative and driving is good and journey_time is short then tip is big
 
 # antecedents
-
 driving
 bad 0 30 0 20
 average 50 50 20 20
@@ -40,22 +39,19 @@ negative -10 -5 0 2.5
 neutral -0.5 0.5 5 5
 positive 5 10 2.5 0
 
-programmingSkills
+programming_skills
 bad -100 -50 0 25
 average -50 50 15 35
 good 65 150 10 0
 
 # consequent
-
 tip
 none 0 2 0 0
 small 50 50 50 50
 moderate 100 100 50 50
 big 150 150 50 50
 
-
 # inputs
-
 journey_time = 15
 driving = 50
 attitude = -3
