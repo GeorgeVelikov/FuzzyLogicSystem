@@ -12,10 +12,11 @@ Rule 0.2: If attitude is negative and journey_time is long then tip is none
 Rule 0.3: If driving is bad and journey_time is long then tip is none
 
 Rule 1.1: If attitude is not negative and driving is bad and journey_time is long then tip is small
-Rule 1.2: If attitude is neutral and (driving is bad or journey_time is long) then tip is small
-Rule 1.3: if attitude is negative and (driving is good or journey_time is short) then tip is small
+Rule 1.2: If attitude is neutral and driving is bad and journey_time is short then tip is small
+Rule 1.3: If attitude is neutral and driving is good and journey_time is long then tip is small
+Rule 1.4: if attitude is negative and (driving is good or journey_time is short) then tip is small
 
-Rule 2.1: If attitude is neutral and driving is average and journey_time is medium then tip is moderate
+Rule 2.1: If attitude is neutral and (driving is average or journey_time is medium) then tip is moderate
 Rule 2.3: If attitude is neutral and (driving is good or journey_time is short) then tip is moderate
 Rule 2.2: If attitude is positive and (driving is not bad or journey_time is not long) then tip is moderate
 Rule 2.4: If attitude is not negative and (driving is average or journey_time is medium) then tip is moderate
@@ -52,6 +53,6 @@ moderate 100 100 50 50
 big 150 150 50 50
 
 # inputs
-journey_time = 15
-driving = 50
-attitude = -3
+journey_time = 12
+driving = 45
+attitude = 0
