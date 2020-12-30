@@ -5,11 +5,11 @@
 #
 
 # rule base
-advancedTippingRulebase
+Improved Advanced Tipping Rule base
 
-Rule 0.1: If attitude is negative and driving is bad then tip is none
-Rule 0.2: If attitude is negative and journey_time is long then tip is none
+Rule 0.1 or 0.2: If attitude is negative and (driving is bad or journey_time is long) then tip is none
 Rule 0.3: If driving is bad and journey_time is long then tip is none
+Rule 0.4: If attitude is negative and (driving is not good or journey_time is not short) then tip is none
 
 Rule 1.1: If attitude is not negative and driving is bad and journey_time is long then tip is small
 Rule 1.2: If attitude is neutral and driving is bad and journey_time is short then tip is small
@@ -22,7 +22,7 @@ Rule 2.2: If attitude is positive and (driving is not bad or journey_time is not
 Rule 2.4: If attitude is not negative and (driving is average or journey_time is medium) then tip is moderate
 
 Rule 3.1: If attitude is positive and driving is not bad and journey_time is not long then tip is big
-Rule 3.2: If attitude is not negative and driving is good and journey_time is short then tip is big
+Rule 3.2.1: If attitude is not negative and (driving is good or journey_time is short) then tip is big
 
 # antecedents
 driving
@@ -36,14 +36,9 @@ medium 10 10 5 5
 long 20 20 10 0
 
 attitude
-negative -10 -5 0 2.5
+negative -10 -5 0 5
 neutral -0.5 0.5 5 5
-positive 5 10 2.5 0
-
-programming_skills
-bad -100 -50 0 25
-average -50 50 15 35
-good 65 150 10 0
+positive 5 10 5 0
 
 # consequent
 tip
@@ -53,6 +48,6 @@ moderate 100 100 50 50
 big 150 150 50 50
 
 # inputs
-journey_time = 12
-driving = 45
-attitude = 0
+journey_time = 0
+driving = 0
+attitude = 10
