@@ -1,9 +1,3 @@
-# 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆
-# 🦆     Georgi Velikov     🦆
-# 🦆        51660024        🦆
-# 🦆 University Of Aberdeen 🦆
-# 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆
-
 from fuzzy_system import FuzzySystem;
 
 from enums.defuzzifying_method_enum import DefuzzifyingMethodEnum;

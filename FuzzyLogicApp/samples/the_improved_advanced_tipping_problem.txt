@@ -1,9 +1,4 @@
 #
-#     Georgi Velikov
-#        51660024
-#  University Of Aberdeen
-#
-
 # rule base
 Improved Advanced Tipping Rule base
 

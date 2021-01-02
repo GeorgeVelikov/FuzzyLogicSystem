@@ -1,9 +1,3 @@
-# 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆
-# 🦆     Georgi Velikov     🦆
-# 🦆        51660024        🦆
-# 🦆 University Of Aberdeen 🦆
-# 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆
-
 class Variable:
     def __str__(self):
         return "\t" + self.Name + " defined as " + str(self.Tuple) + " where (A, B, Alpha, Beta)";
